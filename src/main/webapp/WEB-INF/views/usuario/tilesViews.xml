@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="usuario/alta" extends="base.definition">
+		<put-attribute name="title" value="Inicio Principal" />
+		<put-attribute name="body" value="/WEB-INF/views/usuario/alta.jsp" />
+	</definition>
+	
+	<definition name="usuario/cambios" extends="base.definition">
+		<put-attribute name="title" value="Inicio Principal" />
+		<put-attribute name="body" value="/WEB-INF/views/usuario/cambios.jsp" />
+	</definition>
+	
+	<!--definition name="usuario/cambios/{1}" extends="base.definition">
+		<put-attribute name="title" value="Inicio Principal" />
+		<put-attribute name="body" value="/WEB-INF/views/usuario/cambios.jsp" />
+	</definition-->
+</tiles-definitions>

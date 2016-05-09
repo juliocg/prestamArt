@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="index" extends="base.definition">
+		<put-attribute name="title" value="Inicio Principal" />
+		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
+	</definition>
+	
+	<!--definition name="materiales" extends="base.definition">
+		<put-attribute name="title" value="Materiales" />
+		<put-attribute name="body" value="/WEB-INF/views/layouts/materiales.jsp" />
+		<put-attribute name="header" value="/WEB-INF/views/layouts/header_materiales.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/layouts/footer_materiales.jsp" />						
+	</definition>		
+	
+	<definition name="lista_materiales" extends="base.definition">
+		<put-attribute name="title" value="Lista de Materiales" />
+		<put-attribute name="body" value="/WEB-INF/views/layouts/lista_materiales.jsp" />
+	</definition-->
+</tiles-definitions>

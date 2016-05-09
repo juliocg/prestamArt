@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="base.definition" template="/WEB-INF/views/layouts/layout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="header" value="/WEB-INF/views/layouts/header.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/layouts/menu.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/layouts/footer.jsp" />
+	</definition>
+	
+	<definition name="*/*" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp"/>
+    </definition>
+    
+    <definition name="usuario/*" extends="base.definition">
+        <put-attribute name="title" value="{1}" />
+        <put-attribute name="body" value="/WEB-INF/views/usuario/{1}.jsp" />
+    </definition>
+    
+    <definition name="*" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp"/>
+    </definition>
+    
+	<!--definition name="materiales" extends="base.definition">
+		<put-attribute name="title" value="Materiales" />
+		<put-attribute name="body" value="/WEB-INF/views/layouts/materiales.jsp" />
+		<put-attribute name="header" value="/WEB-INF/views/layouts/header_materiales.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/layouts/footer_materiales.jsp" />						
+	</definition-->
+</tiles-definitions>

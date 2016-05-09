@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--beans xmlns="http://www.springframework.org/schema/security" xsi:schemalocation="http://www.springframework.org/schema/beans&#10; http://www.springframework.org/schema/beans/spring-beans-3.0.xsd&#10; http://www.springframework.org/schema/security&#10; http://www.springframework.org/schema/security/spring-security.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"-->
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+ 
+	<!--http auto-config="true">
+	    <intercept-url pattern="/user/*" access="ROLE_USER" />
+	    <intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
+	    <form-login login-page="/ingresoAlSistema" 
+	        default-target-url="/index" 
+	        authentication-failure-url="/accessdenied" />	    
+	    <logout logout-success-url="/logout"></logout>
+	</http>
+	
+    <authentication-manager>
+        <authentication-provider user-service-ref="autenticacionService">
+        </authentication-provider>
+    </authentication-manager-->
+    
+    <beans:bean id="customAuthenticationSuccessHandler" class="utilities.CustomAuthenticationSuccessHandler" />
+    <http use-expressions="true">
+        <intercept-url pattern="*/*" access="isAuthenticated()" />
+        <intercept-url pattern="/" access="permitAll" />
+        <intercept-url pattern="ingresoAlSistema/" access="permitAll" />
+        <intercept-url pattern="/index" access="permitAll" />
+        <form-login login-page="/ingresoAlSistema" 
+            default-target-url="/index" 
+            authentication-failure-url="/ingresoAlSistema?error=true"
+            authentication-success-handler-ref="customAuthenticationSuccessHandler"
+            username-parameter="correoElectronico"
+            password-parameter="contrasenia" />
+        <!--logout logout-success-url="salidaDelSistema" /-->
+    </http>
+    
+    <beans:bean id="customAuthenticationProvider" class="utilities.CustomAuthenticationProvider" />
+    <authentication-manager>
+        <authentication-provider ref="customAuthenticationProvider" />
+    </authentication-manager>
+</beans:beans>

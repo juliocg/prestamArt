@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>MySQLConexion.properties</value>
+        </property>
+    </bean>
+    
+    <bean id="dataSourceMySQL" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${driverClassName}" />
+        <property name="url" value="${urlBD}" />
+        <property name="username" value="${user}" />
+        <property name="password" value="${password}" />
+    </bean>
+
+    <bean id="tipoUsuarioDAO" class="modelo.tipoUsuarioDAO">
+        <property name="dataSource" ref="dataSourceMySQL"/>
+    </bean>
+    <bean id="usuarioDAO" class="modelo.UsuarioDAO">
+        <property name="dataSource" ref="dataSourceMySQL"/>
+    </bean>
+</beans>
