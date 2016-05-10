@@ -3,7 +3,6 @@ package dao;
 import model.TipoUsuario;
 
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
@@ -48,7 +47,7 @@ public class TipoUsuarioDAO extends BaseHibernateDAO {
 				log.error("save failed", he);
 				throw he;
 			} finally {
-            	session.close();
+            	//session.close();
             }        	
         } catch (RuntimeException re) {
             log.error("save failed", re);
@@ -70,7 +69,7 @@ public class TipoUsuarioDAO extends BaseHibernateDAO {
 				log.error("save failed", he);
 				throw he;
 			} finally {
-            	session.close();
+            	//session.close();
             }        	
         } catch (RuntimeException re) {
             log.error("save failed", re);
@@ -92,7 +91,7 @@ public class TipoUsuarioDAO extends BaseHibernateDAO {
             	log.debug("delete failed", he);
             	throw he;
             } finally {
-            	session.close();
+            	//session.close();
             }        	 	
         } catch (RuntimeException re) {
             log.error("delete failed", re);
@@ -105,12 +104,14 @@ public class TipoUsuarioDAO extends BaseHibernateDAO {
 		Session session = getSession();
 		try {
 			TipoUsuario instance = (TipoUsuario) session.get("model.TipoUsuario", id);
+			session.evict(instance);
+			//session.refresh(instance);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
 		} finally {
-        	session.close();
+        	//session.close();
         }
 	}
 
@@ -128,7 +129,7 @@ public class TipoUsuarioDAO extends BaseHibernateDAO {
 			log.error("find by example failed", re);
 			throw re;
 		} finally {
-        	session.close();
+        	//session.close();
         }
 	}
 
@@ -146,7 +147,7 @@ public class TipoUsuarioDAO extends BaseHibernateDAO {
 			log.error("find by property name failed", re);
 			throw re;
 		} finally {
-        	session.close();
+        	//session.close();
         }
 	}
 
@@ -169,15 +170,14 @@ public class TipoUsuarioDAO extends BaseHibernateDAO {
 			log.error("find all failed", re);
 			throw re;
 		} finally {
-        	session.close();
+        	//session.close();
         }
 	}
 
 	public TipoUsuario merge(TipoUsuario detachedInstance) {
 		log.debug("merging TipoUsuario instance");
 		try {
-			TipoUsuario result = (TipoUsuario) getSession().merge(
-					detachedInstance);
+			TipoUsuario result = (TipoUsuario) getSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {

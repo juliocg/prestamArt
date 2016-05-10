@@ -1,10 +1,8 @@
 package dao;
 
-import model.TipoUsuario;
 import model.Usuario;
 
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
@@ -53,7 +51,7 @@ public class UsuarioDAO extends BaseHibernateDAO {
             	log.debug("save failed", he);
             	throw he;
             } finally {
-            	session.close();
+            	//session.close();
             }        	
         } catch (RuntimeException re) {
             log.error("save failed", re);
@@ -75,7 +73,7 @@ public class UsuarioDAO extends BaseHibernateDAO {
             	log.debug("save failed", he);
             	throw he;
             } finally {
-            	session.close();
+            	//session.close();
             }        	
         } catch (RuntimeException re) {
             log.error("save failed", re);
@@ -97,7 +95,7 @@ public class UsuarioDAO extends BaseHibernateDAO {
             	log.debug("delete failed", he);
             	throw he;
             } finally {
-            	session.close();
+            	//session.close();
             }
         } catch (RuntimeException re) {
             log.error("delete failed", re);
@@ -110,12 +108,14 @@ public class UsuarioDAO extends BaseHibernateDAO {
 		Session session = getSession();
 		try {
 			Usuario instance = (Usuario) session.get("model.Usuario", id);
+			session.evict(instance);
+			//session.refresh(instance);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
 		} finally {
-        	session.close();
+        	//session.close();
         }
 	}
 
@@ -133,7 +133,7 @@ public class UsuarioDAO extends BaseHibernateDAO {
 			log.error("find by example failed", re);
 			throw re;
 		} finally {
-        	session.close();
+        	//session.close();
         }
 	}
 
@@ -151,7 +151,7 @@ public class UsuarioDAO extends BaseHibernateDAO {
 			log.error("find by property name failed", re);
 			throw re;
 		} finally {
-        	session.close();
+        	//session.close();
         }
 	}
 
@@ -161,7 +161,7 @@ public class UsuarioDAO extends BaseHibernateDAO {
 	    if (usuarios.size() > 0) {
 	    	usuario = usuarios.get(0);
 	    }
-		
+	    
 		return usuario;
 	}
 
@@ -200,7 +200,7 @@ public class UsuarioDAO extends BaseHibernateDAO {
 			log.error("find all failed", re);
 			throw re;
 		} finally {
-        	session.close();
+        	//session.close();
         }
 	}
 
