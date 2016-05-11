@@ -13,23 +13,23 @@
 		<property name="connection.url">
 			jdbc:mysql://localhost:3306/prestamart
 		</property>
-		<property name="connection.username">root</property>
-		<property name="connection.password">jejc88nmj</property>
+		<property name="connection.username">test_user</property>
+		<property name="connection.password">123456</property>
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.enable_lazy_load_no_trans">true</property>
+		<property name="hibernate.enable_lazy_load_no_trans">false</property>
 		<!--property name="myeclipse.connection.profile">
 			MySQL_prestamart
 		</property-->
 		<mapping class="model.TipoUsuario" />
 		<mapping class="model.Usuario" />
-		<!--mapping class="model.TipoObjeto" />
+		<mapping class="model.TipoObjeto" />
 		<mapping class="model.Objeto" />
 		<mapping class="model.ImagenObjeto" />
-		<mapping class="model.CalificacionObjeto" />
+		<!--mapping class="model.CalificacionObjeto" /-->
 		<mapping class="model.RespuestaSolicitudPrestamo" />
 		<mapping class="model.PrestamoObjeto" />
 		<mapping class="model.SolicitudPrestamoObjeto" />
-		<mapping class="model.CalificacionConsumidor" /-->
+		<!--mapping class="model.CalificacionConsumidor" /-->
 	</session-factory>
 
 </hibernate-configuration>

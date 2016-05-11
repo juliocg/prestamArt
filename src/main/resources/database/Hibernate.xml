@@ -29,14 +29,14 @@
 			<list>
 				<value>model.TipoUsuario</value>
 				<value>model.Usuario</value>
-				<!--value>model.TipoObjeto</value>
+				<value>model.TipoObjeto</value>
 				<value>model.Objeto</value>
 				<value>model.ImagenObjeto</value>
 				<value>model.CalificacionObjeto</value>
 				<value>model.RespuestaSolicitudPrestamo</value>
 				<value>model.PrestamoObjeto</value>
 				<value>model.SolicitudPrestamoObjeto</value>
-				<value>model.CalificacionConsumidor</value-->
+				<value>model.CalificacionConsumidor</value>
 			</list>
 		</property>
     </bean>
