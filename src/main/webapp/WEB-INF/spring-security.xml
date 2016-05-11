@@ -24,17 +24,16 @@
     
     <beans:bean id="customAuthenticationSuccessHandler" class="utilities.CustomAuthenticationSuccessHandler" />
     <http use-expressions="true">
-        <intercept-url pattern="*/*" access="isAuthenticated()" />
+        <!--intercept-url pattern="*/*" access="isAuthenticated()" />
         <intercept-url pattern="/" access="permitAll" />
-        <intercept-url pattern="ingresoAlSistema/" access="permitAll" />
         <intercept-url pattern="/index" access="permitAll" />
+        <intercept-url pattern="/ingresoAlSistema" access="permitAll" /-->
         <form-login login-page="/ingresoAlSistema" 
-            default-target-url="/index" 
-            authentication-failure-url="/ingresoAlSistema?error=true"
+            authentication-failure-url="/ingresoAlSistema?error"
             authentication-success-handler-ref="customAuthenticationSuccessHandler"
             username-parameter="correoElectronico"
             password-parameter="contrasenia" />
-        <!--logout logout-success-url="salidaDelSistema" /-->
+        <logout logout-success-url="/ingresoAlSistema?logout" />
     </http>
     
     <beans:bean id="customAuthenticationProvider" class="utilities.CustomAuthenticationProvider" />

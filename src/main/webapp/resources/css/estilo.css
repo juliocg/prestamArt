@@ -92,11 +92,11 @@ body {
     padding-right: 10px;
 }
 
-#content .dialog {
+#content .dialog, #content .list {
     text-align: center;
 }
 
-.dialog table {
+.dialog table, .list table {
     text-align: left;
     margin-left: auto;
     margin-right: auto;
@@ -124,7 +124,7 @@ td, th {
     vertical-align: middle;
 }
 th {
-    background: #fff url(../images/skin/shadow.jpg);
+    /*background: #fff url(../images/skin/shadow.jpg);*/
     color: #666;
     font-size: 11px;
     font-weight: bold;
@@ -275,12 +275,12 @@ fieldset legend {
 }
 
 .nav {
-    background: url(../img/barra.png);
+    /*background: url(../img/barra.png);*/
     /*border: 1px solid #909090;
     border-style: solid none solid none;*/
-    padding: 5px 10px;
+    /*padding: 5px 10px;
     margin-top: 5px;
-    height: 14px;
+    height: 14px;*/
 }
 .menuButton {
     padding-left: 5px;

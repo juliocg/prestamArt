@@ -40,7 +40,7 @@ public class IngresoAlSistemaController {
 		return ingresoAlSistema(map, request, error);
 	}
 
-	@RequestMapping(value = "/index.html", method = RequestMethod.GET)
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
     public ModelAndView ingresoAlSistema(ModelMap map, HttpServletRequest request, @RequestParam(value = "error", required = false) String error) {
         IngresoAlSistemaForm ingresoAlSistemaForm = new IngresoAlSistemaForm();
         
@@ -53,7 +53,7 @@ public class IngresoAlSistemaController {
         return new ModelAndView("ingresoAlSistema/index", map);
 	}
 	
-	@RequestMapping(value = "/ingresarAlSistema.html", method = RequestMethod.POST)
+	@RequestMapping(value = "/ingresarAlSistema", method = RequestMethod.POST)
     public ModelAndView ingresarAlSistema(@ModelAttribute("IngresoAlSistemaForm") IngresoAlSistemaForm ingresoAlSistemaForm, 
     		                              ModelMap map) {
         

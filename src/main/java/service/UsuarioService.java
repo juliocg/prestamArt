@@ -160,20 +160,20 @@ public class UsuarioService implements UserDetailsService {
 		    contrasenia = usuario.getContrasenia();
 		    TipoUsuario tipoUsuario = usuario.getTipoUsuario();
 		    if (tipoUsuario != null) {
-		    	System.out.println("hola"+tipoUsuario.toString());
 			    String role = tipoUsuario.getNombreTipoUsuario();
-			    if (role.toUpperCase().equals("Prestador".toUpperCase())) {
+			    if (role.toUpperCase().equals("Admin".toUpperCase())) {
+			    	authorities.add(prestadorAuthority);
+		            authorities.add(consumidorAuthority);
+		            authorities.add(adminAuthority);
+		        }
+			    else if (role.toUpperCase().equals("Prestador".toUpperCase())) {
 			        authorities.add(prestadorAuthority);
 			    }
 			    else if (role.toUpperCase().equals("Consumidor".toUpperCase())) {
 			        authorities.add(consumidorAuthority);
 			    }
-			    else if (role.toUpperCase().equals("Admin".toUpperCase())) {
-			    	authorities.add(prestadorAuthority);
-		            authorities.add(consumidorAuthority);
-		            authorities.add(adminAuthority);
-		        }
 		    }
+		    System.out.println(authorities.toString());
 		    user = new User(correElectronico, contrasenia, true, true, true, true, authorities);
 	    }
 	    

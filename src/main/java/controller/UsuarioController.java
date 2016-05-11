@@ -129,17 +129,19 @@ public class UsuarioController {
 		
 		Usuario usuarioAModificar = usuarioService.getUsuarioById(usuario.getUsuarioId());
 		if (usuarioAModificar != null) {
+			//usuarioAModificar = null;
+			
 			usuarioAModificar = usuario;
 			
 			ModelMap map = new ModelMap();
-			map.put("usuario", usuarioAModificar);
+			map.put("usuario", usuario);
 			
-			System.out.println(usuarioAModificar.getTipoUsuario());
+			System.out.println(usuario.getTipoUsuario());
 			
-			usuarioValidator.validate(usuarioAModificar, result);
+			usuarioValidator.validate(usuario, result);
 			if (!result.hasErrors()) {
-				usuarioAModificar.setActivo(true);
-				usuarioService.updateUsuario(usuarioAModificar);
+				usuario.setActivo(true);
+				usuarioService.updateUsuario(usuario);
 				
 				return new ModelAndView("usuario/mostrar", map);
 			}

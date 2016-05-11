@@ -57,13 +57,21 @@
 	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages" />
     
+    <bean id="tipoUsuarioDAO" class="dao.TipoUsuarioDAO" />
+    <bean id="tipoUsuarioService" class="service.TipoUsuarioService" />
+    <!-- bean id="tipoUsuarioValidator" class="validator.TipoUsuarioValidator" /-->
+    
     <bean id="usuarioDAO" class="dao.UsuarioDAO" />
     <bean id="usuarioService" class="service.UsuarioService" />
     <bean id="usuarioValidator" class="validator.UsuarioValidator" />
     
-    <bean id="tipoUsuarioDAO" class="dao.TipoUsuarioDAO" />
-    <bean id="tipoUsuarioService" class="service.TipoUsuarioService" />
-    <!-- bean id="tipoUsuarioValidator" class="validator.TipoUsuarioValidator" /-->
+    <bean id="tipoObjetoDAO" class="dao.TipoObjetoDAO" />
+    <bean id="tipoObjetoService" class="service.TipoObjetoService" />
+    <!-- bean id="tipoObjetoValidator" class="validator.TipoObjetoValidator" /-->
+    
+    <bean id="objetoDAO" class="dao.ObjetoDAO" />
+    <bean id="objetoService" class="service.ObjetoService" />
+    <bean id="objetoValidator" class="validator.ObjetoValidator" />
     
     <bean id="autenticacionService" class="service.AutenticacionService" />
 </beans>
