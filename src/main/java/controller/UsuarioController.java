@@ -93,59 +93,70 @@ public class UsuarioController {
 		}
 	}*/
 	
-	
-	
-	@RequestMapping(value = "/cambios/{usuarioId}", method = RequestMethod.GET)
-    public String cambios(@PathVariable String usuarioId, 
-    		              ModelMap map
-    		              /*@ModelAttribute("command") Usuario usuario, 
-    		              BindingResult result*/) {
-		
-		Integer id = -1;
-		try {
-			id = Integer.parseInt(usuarioId);
-		}
-		catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-		
+	@RequestMapping(value = "/consulta/{usuarioId}", method = RequestMethod.GET)
+    public ModelAndView mostrarConsulta(
+    		@PathVariable String usuarioId/*, 
+            ModelMap map*/) {
+    		
+		Integer id = stringToId(usuarioId);
 		Usuario usuario = usuarioService.getUsuarioById(id);
 		if (usuario == null) {
-			return "redirect:/";
+			return new ModelAndView("redirect:/");
 		}
 		else {
+			ModelMap map = new ModelMap();
+			map.put("usuario", usuario);
+			
+			/*List<TipoUsuario> tiposUsuario = tipoUsuarioService.getTiposUsuarioByAtributo("elegible", true);
+			map.put("tiposUsuario", tiposUsuario);*/
+			
+	        return new ModelAndView("usuario/consulta", map);
+		}
+    }
+	
+	@RequestMapping(value = "/cambios/{usuarioId}", method = RequestMethod.GET)
+    public ModelAndView mostrarCambios(
+    		@PathVariable String usuarioId/*, 
+            ModelMap map*/) {
+		
+		Integer id = stringToId(usuarioId);
+		Usuario usuario = usuarioService.getUsuarioById(id);
+		if (usuario == null) {
+			return new ModelAndView("redirect:/");
+			//return "redirect:/";
+		}
+		else {
+			ModelMap map = new ModelMap();
 			map.put("usuario", usuario);
 			
 			List<TipoUsuario> tiposUsuario = tipoUsuarioService.getTiposUsuarioByAtributo("elegible", true);
 			map.put("tiposUsuario", tiposUsuario);
 			
-	        return "usuario/cambios";
+	        return new ModelAndView("usuario/cambios", map);
+			//return "usuario/cambios"; // usar commandName en el form de la vista
 		}
 	}
 	
 	@RequestMapping(value = "/modificar", method = RequestMethod.POST)
-	public ModelAndView modificar(@ModelAttribute("usuario") Usuario usuario, 
-			                      BindingResult result) {
+	public ModelAndView modificar(
+			@ModelAttribute("usuario") Usuario usuarioForm, 
+            BindingResult result) {
 		
-		Usuario usuarioAModificar = usuarioService.getUsuarioById(usuario.getUsuarioId());
-		if (usuarioAModificar != null) {
-			//usuarioAModificar = null;
-			
-			usuarioAModificar = usuario;
-			
-			ModelMap map = new ModelMap();
-			map.put("usuario", usuario);
-			
-			System.out.println(usuario.getTipoUsuario());
+		Usuario usuario = usuarioService.getUsuarioById(usuarioForm.getUsuarioId());
+		if (usuario != null) {
+			usuario = usuarioForm;
 			
 			usuarioValidator.validate(usuario, result);
 			if (!result.hasErrors()) {
 				usuario.setActivo(true);
 				usuarioService.updateUsuario(usuario);
 				
-				return new ModelAndView("usuario/mostrar", map);
+				return new ModelAndView("redirect:/usuario/consulta/"+usuario.getUsuarioId());
 			}
             else {
+            	ModelMap map = new ModelMap();
+    			map.put("usuario", usuario);
+            	
             	List<TipoUsuario> tiposUsuario = tipoUsuarioService.getTiposUsuarioByAtributo("elegible", true);
             	map.put("tiposUsuario", tiposUsuario);
             	
@@ -153,7 +164,18 @@ public class UsuarioController {
 			}
 		}
 		else {
-			return new ModelAndView("index");
+			return new ModelAndView("redirect:/");
 		}
 	}
+	
+	public Integer stringToId(String cadena) {
+		Integer id = -1;
+		try {
+			id = Integer.parseInt(cadena);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+	
 }

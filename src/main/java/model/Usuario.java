@@ -22,7 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * Usuario entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "usuario", catalog = "prestamart", uniqueConstraints = @UniqueConstraint(columnNames = "correo_electronico"))
+@Table(name = "usuario", catalog = "prestamart"/*, uniqueConstraints = @UniqueConstraint(columnNames = "correo_electronico")*/)
 public class Usuario implements java.io.Serializable/*, UserDetails*/ {
 
 	// Fields
@@ -121,7 +121,7 @@ public class Usuario implements java.io.Serializable/*, UserDetails*/ {
 		this.tipoUsuario = tipoUsuario;
 	}
 
-	@Column(name = "correo_electronico", unique = true, nullable = false)
+	@Column(name = "correo_electronico"/*, unique = true*/, nullable = false)
 	public String getCorreoElectronico() {
 		return this.correoElectronico;
 	}

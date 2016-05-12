@@ -35,20 +35,26 @@ public class IngresoAlSistemaController {
     }
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView mostrarInicio(ModelMap map, HttpServletRequest request, @RequestParam(value = "error", required = false) String error) {
-		
-		return ingresoAlSistema(map, request, error);
+	public ModelAndView muestraInicio() {
+		return muestraIngresoAlSistema(null, null);
 	}
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-    public ModelAndView ingresoAlSistema(ModelMap map, HttpServletRequest request, @RequestParam(value = "error", required = false) String error) {
-        IngresoAlSistemaForm ingresoAlSistemaForm = new IngresoAlSistemaForm();
+    public ModelAndView muestraIngresoAlSistema( 
+    		@RequestParam(value = "error", required = false) String error, 
+    		@RequestParam(value = "logout", required = false) String logout) {
         
+		ModelMap map = new ModelMap();
+		
+		IngresoAlSistemaForm ingresoAlSistemaForm = new IngresoAlSistemaForm();
+		map.put("ingresoAlSistemaForm", ingresoAlSistemaForm);
         
         if (error != null) {
-			map.put("error", "Invalid username and password!");
+			map.put("error", "El correo electr&oacute;nico o contrase&ntilde;a son incorrectos");
 		}
-        map.put("ingresoAlSistemaForm", ingresoAlSistemaForm);
+        else if (logout != null) {
+        	map.put("mensaje", "La sesi&oacute;n se ha cerrado correctamente");
+        }
         
         return new ModelAndView("ingresoAlSistema/index", map);
 	}
@@ -57,8 +63,7 @@ public class IngresoAlSistemaController {
     public ModelAndView ingresarAlSistema(@ModelAttribute("IngresoAlSistemaForm") IngresoAlSistemaForm ingresoAlSistemaForm, 
     		                              ModelMap map) {
         
-		//ModelAndView model= null;
-		
+		//ModelMap map = new ModelMap();
 		Usuario usuario = usuarioService.getUsuarioByCorreoElectronico(ingresoAlSistemaForm.getCorreoElectronico());
 		if (usuario != null) {
 			String contrasenia = usuario.getContrasenia();
@@ -69,10 +74,10 @@ public class IngresoAlSistemaController {
 					map.put("usuario", usuario);
 					
 					if (tipoUsuario.getNombreTipoUsuario() == "Prestador") {
-					    return new ModelAndView("prestamo/administracionPrestadamos", map);
+					    return new ModelAndView("objeto/adminPrestador", map);
 					}
 					else if (tipoUsuario.getNombreTipoUsuario() == "Consumidor") {
-						return new ModelAndView("objeto/administracionPrestadamos", map);
+						return new ModelAndView("prestamo/adminConsumidor", map);
 					}
 					else {
 						return new ModelAndView("ingresoAlSistema/index");
@@ -84,34 +89,15 @@ public class IngresoAlSistemaController {
 				
 			}
 			else {
-				map.put("message", "Invalid credentials!!");
+				map.put("mensaje", "El correo electr&oacute;nico o contrase&ntilde;a son incorrectos");
 				
 				return new ModelAndView("ingresoAlSistema/index");
 			}
 		}
 		else {
-			map.put("message", "Invalid credentials!!");
+			map.put("mensaje", "El correo electr&oacute;nico o contrase&ntilde;a son incorrectos");
 			
 			return new ModelAndView("ingresoAlSistema/index");
 		}
-		
-		/*try {
-			boolean isValidUser = ingresoAlSistemaService.isValidUser(ingresoAlSistemaForm.getCorreoElectronico(), ingresoAlSistemaForm.getContrasenia());
-			if (isValidUser) {
-				System.out.println("User Login Successful");
-				request.setAttribute("loggedInUser", loginBean.getUsername());
-				map = new ModelAndView("welcome");
-			}
-			else {
-				map = new ModelAndView("login");
-				request.setAttribute("message", "Invalid credentials!!");
-			}
-
-		}
-		catch (Exception e) {
-		    e.printStackTrace();
-		}
-		
-        return new ModelAndView("ingresoAlSistema/index", map);*/
 	}
 }

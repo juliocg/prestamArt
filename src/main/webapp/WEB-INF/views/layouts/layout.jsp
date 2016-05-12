@@ -1,7 +1,7 @@
-<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -9,6 +9,8 @@
         <title></title>
 	    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	    <!--tiles:insertAttribute name="title" ignore="true" /-->
+	    <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.ico' />" type="image/x-icon">
+        <link rel="icon" href="<c:url value='/resources/images/favicon.ico' />" type="image/x-icon">
 	    
 	    <link href="<c:url value='/resources/jquery-ui-1.10.4.custom/css/base/jquery-ui-1.10.4.custom.css' />" rel="stylesheet">
 	    <link href="<c:url value='/resources/jquery-ui-1.10.4.custom/development-bundle/themes/base/jquery.ui.all.css' />" rel="stylesheet">

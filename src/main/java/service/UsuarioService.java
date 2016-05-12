@@ -146,36 +146,38 @@ public class UsuarioService implements UserDetailsService {
     	System.out.println(correoElectronico);
 	    Usuario usuario = usuarioDAO.findByCorreoElectronico(correoElectronico);
 	    
-	    String correElectronico = null;
-	    String contrasenia = null;
-	    
-	    Set<SimpleGrantedAuthority> authorities = new HashSet<SimpleGrantedAuthority>();
-	     
-	    SimpleGrantedAuthority prestadorAuthority = new SimpleGrantedAuthority("ROLE_PRESTADOR");
-	    SimpleGrantedAuthority consumidorAuthority = new SimpleGrantedAuthority("ROLE_CONSUMIDOR");
-	    SimpleGrantedAuthority adminAuthority = new SimpleGrantedAuthority("ROLE_ADMIN");
-	    
-	    if (usuario != null) {
-	    	correElectronico = usuario.getCorreoElectronico();
-		    contrasenia = usuario.getContrasenia();
-		    TipoUsuario tipoUsuario = usuario.getTipoUsuario();
-		    if (tipoUsuario != null) {
-			    String role = tipoUsuario.getNombreTipoUsuario();
-			    if (role.toUpperCase().equals("Admin".toUpperCase())) {
-			    	authorities.add(prestadorAuthority);
-		            authorities.add(consumidorAuthority);
-		            authorities.add(adminAuthority);
-		        }
-			    else if (role.toUpperCase().equals("Prestador".toUpperCase())) {
-			        authorities.add(prestadorAuthority);
+	    //if (usuario.getActivo() == true) {
+		    String correElectronico = null;
+		    String contrasenia = null;
+		    
+		    Set<SimpleGrantedAuthority> authorities = new HashSet<SimpleGrantedAuthority>();
+		     
+		    SimpleGrantedAuthority prestadorAuthority = new SimpleGrantedAuthority("ROLE_PRESTADOR");
+		    SimpleGrantedAuthority consumidorAuthority = new SimpleGrantedAuthority("ROLE_CONSUMIDOR");
+		    SimpleGrantedAuthority adminAuthority = new SimpleGrantedAuthority("ROLE_ADMIN");
+		    
+		    if (usuario != null) {
+		    	correElectronico = usuario.getCorreoElectronico();
+			    contrasenia = usuario.getContrasenia();
+			    TipoUsuario tipoUsuario = usuario.getTipoUsuario();
+			    if (tipoUsuario != null) {
+				    String role = tipoUsuario.getNombreTipoUsuario();
+				    if (role.toUpperCase().equals("Admin".toUpperCase())) {
+				    	authorities.add(prestadorAuthority);
+			            authorities.add(consumidorAuthority);
+			            authorities.add(adminAuthority);
+			        }
+				    else if (role.toUpperCase().equals("Prestador".toUpperCase())) {
+				        authorities.add(prestadorAuthority);
+				    }
+				    else if (role.toUpperCase().equals("Consumidor".toUpperCase())) {
+				        authorities.add(consumidorAuthority);
+				    }
 			    }
-			    else if (role.toUpperCase().equals("Consumidor".toUpperCase())) {
-			        authorities.add(consumidorAuthority);
-			    }
+			    System.out.println(authorities.toString());
+			    user = new User(correElectronico, contrasenia, true, true, true, true, authorities);
 		    }
-		    System.out.println(authorities.toString());
-		    user = new User(correElectronico, contrasenia, true, true, true, true, authorities);
-	    }
+	    //}
 	    
 	    return user;
     }
