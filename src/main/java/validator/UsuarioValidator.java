@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 //import form.UsuarioForm;
 import model.TipoUsuario;
 import model.Usuario;
+import service.UsuarioService;
 import service.TipoUsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.validation.Validator;
 
 public class UsuarioValidator implements Validator {
 	
+	@Autowired
+	private UsuarioService usuarioService;
 	@Autowired
 	private TipoUsuarioService tipoUsuarioService;
 	
@@ -70,17 +73,19 @@ public class UsuarioValidator implements Validator {
 	
 	@Override
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "correoElectronico", "correoElectronico.required");
-		
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contrasenia", "contrasenia.required");
-		
-		ValidationUtils.rejectIfEmpty(errors, "nombre", "nombre.required");
 		
 		Usuario usuario = (Usuario) target;
 		
+		String correoElectronico = usuario.getCorreoElectronico();
+		if (usuario.getUsuarioId() == null && correoElectronico != null && !correoElectronico.equals("")) {
+			Usuario usuarioPersistente = usuarioService.getUsuarioByCorreoElectronicoAndActivo(correoElectronico, true);
+			if (usuarioPersistente != null) {
+			    errors.rejectValue("correoElectronico", "correoElectronico.alreadyExists");
+			}
+		}
+		
 		TipoUsuario tipoUsuario = usuario.getTipoUsuario();
 		if (tipoUsuario.getTipoUsuarioId() == null) {
-			System.out.println("error tipo usuario");
 			errors.rejectValue("tipoUsuario", "tipoUsuario.invalid");
 		}
 		
@@ -101,5 +106,11 @@ public class UsuarioValidator implements Validator {
 				}
 			}
 		}
+		
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "correoElectronico", "correoElectronico.required");
+		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contrasenia", "contrasenia.required");
+		
+		ValidationUtils.rejectIfEmpty(errors, "nombre", "nombre.required");
 	}
 }

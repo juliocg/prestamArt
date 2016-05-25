@@ -25,7 +25,7 @@ public class AutenticacionService implements UserDetailsService {
     @Transactional(readOnly=true)
     @Override
     public UserDetails loadUserByUsername(String correoElectronico) throws UsernameNotFoundException {
-	    Usuario usuario = usuarioDAO.findByCorreoElectronico(correoElectronico);
+	    Usuario usuario = usuarioDAO.findByCorreoElectronicoAndActivo(correoElectronico, true);
 	    
 	    Set<SimpleGrantedAuthority> authorities = new HashSet<SimpleGrantedAuthority>();
 	     

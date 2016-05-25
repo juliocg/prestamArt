@@ -1,6 +1,7 @@
 package dao;
 
 import model.Usuario;
+import model.TipoUsuario;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -156,15 +158,56 @@ public class UsuarioDAO extends BaseHibernateDAO {
 	}
 
 	public Usuario findByCorreoElectronico(Object correoElectronico) {
-		Usuario usuario = null;
-		List<Usuario> usuarios = findByProperty(CORREO_ELECTRONICO, correoElectronico);
-	    if (usuarios.size() > 0) {
-	    	usuario = usuarios.get(0);
-	    }
-	    
-		return usuario;
+		Session session = getSession();
+		try {
+			List<Usuario> usuarios = (List<Usuario>) session
+					.createCriteria(Usuario.class)
+					.add(Restrictions.eq("correoElectronico", correoElectronico))
+					.list();
+			if (usuarios.size() > 0) {
+			    return usuarios.get(0);
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by correoElectronico failed", re);
+			throw re;
+		}
+	}
+	
+	public Usuario findByCorreoElectronicoAndActivo(Object correoElectronico, Object activo) {
+		Session session = getSession();
+		try {
+			Usuario instance = (Usuario) session
+					.createCriteria(Usuario.class)
+					.add(Restrictions.eq("correoElectronico", correoElectronico))
+					.add(Restrictions.eq("activo", activo))
+					.uniqueResult();
+			session.evict(instance);
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("find by correoElectronico and activo failed", re);
+			throw re;
+		}
 	}
 
+	public Usuario findByCorreoElectronicoAndTipoUsuario(Object correoElectronico, Object tipoUsuario) {
+		Session session = getSession();
+		try {
+			TipoUsuario object = (TipoUsuario) tipoUsuario;
+			Usuario instance = (Usuario) session
+					.createCriteria(Usuario.class)
+					.add(Restrictions.eq("correoElectronico", correoElectronico))
+					.add(Restrictions.eq("tipoUsuario.tipoUsuarioId", object.getTipoUsuarioId()))
+					.uniqueResult();
+			session.evict(instance);
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("find by correoElectronico and tipoUsuario failed", re);
+			throw re;
+		}
+	}
+	
 	public List<Usuario> findByContrasenia(Object contrasenia) {
 		return findByProperty(CONTRASENIA, contrasenia);
 	}

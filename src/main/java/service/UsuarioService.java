@@ -128,6 +128,16 @@ public class UsuarioService implements UserDetailsService {
     }
     
     @Transactional
+    public Usuario getUsuarioByCorreoElectronicoAndActivo(String correoElectronico, Boolean activo) {
+    	return usuarioDAO.findByCorreoElectronicoAndActivo(correoElectronico, activo);
+    }
+    
+    @Transactional
+    public Usuario getUsuarioByCorreoElectronicoAndTipoUsuario(String correoElectronico, TipoUsuario tipoUsuario) {
+    	return usuarioDAO.findByCorreoElectronicoAndTipoUsuario(correoElectronico, tipoUsuario);
+    }
+    
+    @Transactional
     public List<Usuario> getUsuariosByAtributo(String nombreAtributo, Object valorAtributo) {
         return usuarioDAO.findByProperty(nombreAtributo, valorAtributo);
 	}
@@ -144,7 +154,7 @@ public class UsuarioService implements UserDetailsService {
     	UserDetails user = null;
     	
     	System.out.println(correoElectronico);
-	    Usuario usuario = usuarioDAO.findByCorreoElectronico(correoElectronico);
+	    Usuario usuario = usuarioDAO.findByCorreoElectronicoAndActivo(correoElectronico, true);
 	    
 	    //if (usuario.getActivo() == true) {
 		    String correElectronico = null;

@@ -35,14 +35,18 @@ public class IngresoAlSistemaController {
     }
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView muestraInicio() {
-		return muestraIngresoAlSistema(null, null);
+	public ModelAndView muestraInicio(
+			@RequestParam(value = "error", required = false) String error, 
+    		@RequestParam(value = "logout", required = false) String logout,
+    		@RequestParam(value = "registrationSuccessful", required = false) String registrationSuccessful) {
+		return muestraIngresoAlSistema(error, logout, registrationSuccessful);
 	}
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
     public ModelAndView muestraIngresoAlSistema( 
     		@RequestParam(value = "error", required = false) String error, 
-    		@RequestParam(value = "logout", required = false) String logout) {
+    		@RequestParam(value = "logout", required = false) String logout,
+    		@RequestParam(value = "registrationSuccessful", required = false) String registrationSuccessful) {
         
 		ModelMap map = new ModelMap();
 		
@@ -54,6 +58,9 @@ public class IngresoAlSistemaController {
 		}
         else if (logout != null) {
         	map.put("mensaje", "La sesi&oacute;n se ha cerrado correctamente");
+        }
+        else if (registrationSuccessful != null) {
+        	map.put("mensaje", "El registro de usuario se ha realizado correctamente");
         }
         
         return new ModelAndView("ingresoAlSistema/index", map);

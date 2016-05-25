@@ -13,14 +13,19 @@
         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp"/>
     </definition>
     
+    <definition name="*" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp"/>
+    </definition>
+    
     <definition name="usuario/*" extends="base.definition">
         <put-attribute name="title" value="{1}" />
         <put-attribute name="body" value="/WEB-INF/views/usuario/{1}.jsp" />
     </definition>
     
-    <definition name="*" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp"/>
-    </definition>
+    <!-- <definition name="registroUsuario/*" extends="base.definition">
+        <put-attribute name="title" value="{1}" />
+        <put-attribute name="body" value="/WEB-INF/views/registroUsuario/{1}.jsp" />
+    </definition> -->
     
 	<!--definition name="materiales" extends="base.definition">
 		<put-attribute name="title" value="Materiales" />

@@ -26,6 +26,14 @@
         
         <link href="<c:url value='/resources/css/estilo.css' />" rel="stylesheet">
         <!--link href="<c:url value='/resources/css/mobile.css' />" rel="stylesheet"-->
+        
+        <script type="text/javascript">
+        $(function() {
+        	if (!$('div.alert.alert-warning a.close').exist()) {
+        	   $('div.alert.alert-warning').append('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+        	}
+        });
+        </script>
     </head>
     <body style="margin:0">
         <table style="width:100%; border:0" class="container">

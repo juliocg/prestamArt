@@ -14,11 +14,15 @@
         <h2>Ingreso al sistema</h2>
         
         <c:choose>
-        <c:when test="${not empty mensaje}">
-        <div class="error">${mensaje}</div>
-        </c:when>
         <c:when test="${not empty error}">
-        <div class="mensaje">${error}</div>
+        <div class="alert alert-warning">
+        ${error}<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        </div>
+        </c:when>
+        <c:when test="${not empty mensaje}">
+        <div class="alert alert-success">
+        ${mensaje}<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        </div>
         </c:when>
         </c:choose>
         

@@ -149,6 +149,7 @@ public class UsuarioController {
 			usuarioValidator.validate(usuario, result);
 			if (!result.hasErrors()) {
 				usuario.setActivo(true);
+				
 				usuarioService.updateUsuario(usuario);
 				
 				return new ModelAndView("redirect:/usuario/consulta/"+usuario.getUsuarioId());
