@@ -11,18 +11,20 @@
 	</head>
 	<body>
 	    <div class="body">
-	    <h2>Registro de usuario</h2>
+	    <h2>Cambio de datos de objeto</h2>
 	    
-		<form:form method="POST" action="${pageContext.request.contextPath}/registroUsuario/registrar" modelAttribute="usuario">
+		<form:form method="POST" action="${pageContext.request.contextPath}/objeto/realizarCambios" modelAttribute="usuario">
 		    <div class="dialog">
+		    <form:hidden path="usuarioId" value="${usuario.usuarioId}" readonly="true" />
 		    <table>
 		        <tr>
 		            <td><form:label path="correoElectronico">Correo Electrónico</form:label></td>  
 		            <td>
-		                <form:input path="correoElectronico" value="${usuario.correoElectronico}" class="form-control" />
+		                <form:hidden path="correoElectronico" value="${usuario.correoElectronico}" readonly="true" class="form-control" />
+		                <!--<form:input path="correoElectronico" value="${usuario.correoElectronico}" class="form-control" />-->
 		            </td>
 		            <td>
-			            <form:errors path="correoElectronico" cssClass="alert alert-warning" element="div" />
+			            <!--<form:errors path="correoElectronico" cssClass="alert alert-warning" element="div" />-->
 		            </td>
 		        </tr>
 		        
@@ -39,14 +41,15 @@
 		        <tr>
 		            <td><form:label path="tipoUsuario">Tipo de Usuario</form:label></td>
 		            <td>
-		                <form:select multiple="single" path="tipoUsuario.tipoUsuarioId" class="form-control" >
-		                <!--form:option selected="true" value="${usuario.tipoUsuario.tipoUsuarioId}" /-->
-                        <form:option value="" label="-Elige-" />
-                        <form:options items="${tiposUsuario}" itemValue="tipoUsuarioId" itemLabel="nombreTipoUsuario" />
-                        </form:select>
+		                <form:hidden path="usuario.tipoUsuario.tipoUsuarioId" value="${usuario.tipoUsuario.tipoUsuarioId}" readonly="true" class="form-control" />
+		                <!--form:select multiple="single" path="tipoUsuario.tipoUsuarioId" class="form-control"-->
+		                <!----form:option selected="true" value="${usuario.tipoUsuario.tipoUsuarioId}" /---->
+                        <!--form:option value="" label="-Elige-" /-->
+                        <!--form:options items="${tiposUsuario}" itemValue="tipoUsuarioId" itemLabel="nombreTipoUsuario" /-->
+                        <!--/form:select-->
 		            </td>
 		            <td>
-		                <form:errors path="tipoUsuario" cssClass="alert alert-warning" element="div" />
+		                <!--<form:errors path="tipoUsuario" cssClass="alert alert-warning" element="div" />-->
 		            </td>
 		        </tr>
 		        
@@ -92,7 +95,7 @@
 		        
 		        <tr>
 		            <td></td>
-		            <td><input type="submit" value="Registrar usuario" class="btn btn-success" /></td>  
+		            <td><input type="submit" value="Modificar Usuario" class="btn btn-success" /></td>  
 		        </tr>  
             </table>
             </div>

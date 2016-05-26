@@ -256,7 +256,15 @@
         <version>2.2.2</version>
     </dependency>
     
+    <!-- Apache Commons file upload  -->
     <dependency>
+        <groupId>commons-fileupload</groupId>
+        <artifactId>commons-fileupload</artifactId>
+        <version>1.3</version>
+    </dependency>
+    <!-- Apache Commons IO -->
+    <dependency>
+        <!--<groupId>org.apache.commons</groupId>-->
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.4</version>

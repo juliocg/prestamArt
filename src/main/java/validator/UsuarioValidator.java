@@ -84,6 +84,12 @@ public class UsuarioValidator implements Validator {
 			}
 		}
 		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "correoElectronico", "correoElectronico.required");
+		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contrasenia", "contrasenia.required");
+		
+		ValidationUtils.rejectIfEmpty(errors, "nombre", "nombre.required");
+		
 		TipoUsuario tipoUsuario = usuario.getTipoUsuario();
 		if (tipoUsuario.getTipoUsuarioId() == null) {
 			errors.rejectValue("tipoUsuario", "tipoUsuario.invalid");
@@ -107,10 +113,6 @@ public class UsuarioValidator implements Validator {
 			}
 		}
 		
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "correoElectronico", "correoElectronico.required");
-		
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contrasenia", "contrasenia.required");
-		
-		ValidationUtils.rejectIfEmpty(errors, "nombre", "nombre.required");
+        ValidationUtils.rejectIfEmpty(errors, "telefono", "telefono.required");
 	}
 }

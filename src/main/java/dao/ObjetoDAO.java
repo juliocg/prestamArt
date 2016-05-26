@@ -174,6 +174,35 @@ public class ObjetoDAO extends BaseHibernateDAO {
 		}
 	}
 	
+	public List<Objeto> findByPrestadorAndActivo(Object prestador, Object activo) {
+		Session session = getSession();
+		try {
+			Usuario object = (Usuario) prestador;
+			List<Objeto> results = (List<Objeto>) session
+					.createCriteria(Objeto.class)
+					.add(Restrictions.eq("prestador.usuarioId", object.getUsuarioId()))
+					.add(Restrictions.eq("activo", activo))
+					.list();
+			log.debug("find by prestador and activo successful, result size: "
+					+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by prestador and activo failed", re);
+			throw re;
+		}
+	}
+	
+	public List<Objeto> findByQuery(String queryString) {
+		Session session = getSession();
+		try {
+			Query queryObject = session.createQuery(queryString);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by query failed", re);
+			throw re;
+		}
+	}
+	
 	public List findAll() {
 		log.debug("finding all Objeto instances");
 		Session session = getSession();

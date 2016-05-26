@@ -42,6 +42,7 @@
         <!--property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" /-->
     </bean>
+    
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
 		<property name="definitions">
 			<list>
@@ -54,6 +55,8 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages" />
     

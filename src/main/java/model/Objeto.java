@@ -33,6 +33,7 @@ public class Objeto implements java.io.Serializable {
 	private String descripcion;
 	private String beneficioEsperado;
 	private String periodoTiempoPrestamo;
+	private String nombreImagen;
 	private Boolean activo;
 	private Set<ImagenObjeto> imagenObjetos = new HashSet<ImagenObjeto>(0);
 	private Set<SolicitudPrestamoObjeto> solicitudPrestamoObjetos = new HashSet<SolicitudPrestamoObjeto>(0);
@@ -48,20 +49,21 @@ public class Objeto implements java.io.Serializable {
 	/** minimal constructor */
 	public Objeto(Usuario prestador, TipoObjeto tipoObjeto, String nombreObjeto,
 			String descripcion, String beneficioEsperado,
-			String periodoTiempoPrestamo, Boolean activo) {
+			String periodoTiempoPrestamo, String nombreImagen, Boolean activo) {
 		this.prestador = prestador;
 		this.tipoObjeto = tipoObjeto;
 		this.nombreObjeto = nombreObjeto;
 		this.descripcion = descripcion;
 		this.beneficioEsperado = beneficioEsperado;
 		this.periodoTiempoPrestamo = periodoTiempoPrestamo;
+		this.nombreImagen = nombreImagen;
 		this.activo = activo;
 	}
 
 	/** full constructor */
 	public Objeto(Usuario prestador, TipoObjeto tipoObjeto, String nombreObjeto,
 			String descripcion, String beneficioEsperado,
-			String periodoTiempoPrestamo, Boolean activo,
+			String periodoTiempoPrestamo, String nombreImagen, Boolean activo,
 			Set<ImagenObjeto> imagenObjetos,
 			/*Set<CalificacionObjeto> calificacionObjetos,*/
 			Set<PrestamoObjeto> prestamoObjetos,
@@ -72,6 +74,7 @@ public class Objeto implements java.io.Serializable {
 		this.descripcion = descripcion;
 		this.beneficioEsperado = beneficioEsperado;
 		this.periodoTiempoPrestamo = periodoTiempoPrestamo;
+		this.nombreImagen = nombreImagen;
 		this.activo = activo;
 		this.imagenObjetos = imagenObjetos;
 		/*this.calificacionObjetos = calificacionObjetos;*/
@@ -147,6 +150,15 @@ public class Objeto implements java.io.Serializable {
 		this.periodoTiempoPrestamo = periodoTiempoPrestamo;
 	}
 
+	@Column(name = "nombre_imagen", nullable = false, length = 255)
+	public String getNombreImagen() {
+		return this.nombreImagen;
+	}
+
+	public void setNombreImagen(String nombreImagen) {
+		this.nombreImagen = nombreImagen;
+	}
+	
 	@Column(name = "activo", nullable = false)
 	public Boolean getActivo() {
 		return this.activo;

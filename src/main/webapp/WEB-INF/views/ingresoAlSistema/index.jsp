@@ -51,7 +51,7 @@
 		        
 		        <tr>
 		            <td></td>
-		            <td><input type="submit" value="Ingresar al Sistema" class="btn btn-success" /></td>  
+		            <td><input type="submit" value="Ingresar al sistema" class="btn btn-success" /></td>  
 		        </tr>
 		    </table>
 		    </div>

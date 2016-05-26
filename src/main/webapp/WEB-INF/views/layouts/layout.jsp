@@ -29,7 +29,7 @@
         
         <script type="text/javascript">
         $(function() {
-        	if (!$('div.alert.alert-warning a.close').exist()) {
+        	if (!$('div.alert.alert-warning a.close').length) {
         	   $('div.alert.alert-warning').append('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
         	}
         });
@@ -67,6 +67,9 @@
 		                        </c:when>
 		                        <c:otherwise>
 		                        <ul class="nav navbar-nav navbar-right" style="height:40px;">
+		                        <li style="height:40px">
+			                    <a href="<c:url value='/registroUsuario' />" style="padding-top:8px">Registro de usuario</a>
+			                    </li>
 			                    <li style="height:40px">
 		                        <a href="<c:url value='/ingresoAlSistema' />" style="padding-top:8px">Ingreso al sistema</a>
 		                        </li>

@@ -18,15 +18,15 @@
 	        </div>
 	        
 	        <div class="nav-right" style="float:right; width:50%;">
-		        <form:form method="POST" action="">
-		        <div class="col-lg-6">
-                <div class="input-group">
-	            <input type="text" name="campo" value="" class="form-control" placeholder="Buscar..." />
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Go!</button>
-                </span>
-                </div>
-                </div>
+		        <form:form method="POST" action="${pageContext.request.contextPath}/busquedaObjetos/buscar">
+		            <div class="col-lg-6">
+                    <div class="input-group">
+	                <input type="text" name="texto" value="" class="form-control" placeholder="Buscar..." />
+                    <span class="input-group-btn">
+                        <input type="submit" class="btn btn-default" type="button" value="Buscar" />
+                    </span>
+                    </div>
+                    </div>
 	            </form:form>
 	        </div>
 	    </div>
