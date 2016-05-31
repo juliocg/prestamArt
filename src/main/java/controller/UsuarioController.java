@@ -12,6 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,11 +25,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/usuario")
 public class UsuarioController {
+	
+	@Autowired
+	private SessionRegistry sessionRegistry;
 	
 	private UsuarioService usuarioService;
 	private TipoUsuarioService tipoUsuarioService;
@@ -35,63 +45,6 @@ public class UsuarioController {
 		this.tipoUsuarioService = tipoUsuarioService;
 		this.usuarioValidator = usuarioValidator;
 	}
-	
-	/*@RequestMapping(value = "/cambios.html", method = RequestMethod.GET)
-    public ModelAndView cambios(HttpServletRequest request, HttpServletResponse response) {
-		
-		String usuarioIdString = request.getParameter("id");
-		System.out.println(usuarioIdString);
-		Usuario usuario = usuarioService.getUsuarioById(usuarioIdString);
-		
-		if (usuario == null) {
-			return new ModelAndView("index");
-		}
-		else {
-			UsuarioForm usuarioForm = new UsuarioForm();
-			usuarioForm.setUsuarioId(usuario.getUsuarioId().toString());
-			usuarioForm.setTipoUsuarioId(usuario.getTipoUsuario().getTipoUsuarioId().toString());
-			usuarioForm.setCorreoElectronico(usuario.getCorreoElectronico());
-			usuarioForm.setContrasenia(usuario.getContrasenia());
-			usuarioForm.setNombre(usuario.getNombre());
-			usuarioForm.setApellidos(usuario.getApellidos());
-			usuarioForm.setTelefono(usuario.getTelefono());
-			usuarioForm.setOtroDatoContacto(usuario.getOtroDatoContacto());
-			//usuarioForm.setActivo(usuario.getActivo().toString());
-	        
-	        return new ModelAndView("usuario/cambios", "usuarioForm", usuarioForm);
-		}
-	}
-	
-	@RequestMapping(value = "/modificar.html", method = RequestMethod.POST)
-	public String modificar(@ModelAttribute("usuarioForm") UsuarioForm usuarioForm, BindingResult result) {
-		
-		String usuarioIdString = usuarioForm.getUsuarioId();
-		Usuario usuario = usuarioService.getUsuarioById(usuarioIdString);
-		//Usuario usuario = null;
-		//Integer usuarioId = -1;
-		//try {
-			//usuarioId = Integer.parseInt(usuarioForm.getUsuarioId());
-			//usuario = usuarioService.getUsuarioById(usuarioId);
-		//}
-		//catch(NumberFormatException e) {
-			//e.printStackTrace();
-		//}
-		
-		if (usuario != null) {
-			usuarioValidator.validate(usuarioForm, result);
-			if (!result.hasErrors()) {
-				usuarioService.addUsuario(usuarioForm);
-				
-				return "redirect:userSuccess.htm";
-			}
-            else {
-				return "/usuario/cambios";
-			}
-		}
-		else {
-			return "/usuario/index";
-		}
-	}*/
 	
 	@RequestMapping(value = "/consulta/{usuarioId}", method = RequestMethod.GET)
     public ModelAndView mostrarConsulta(
@@ -169,7 +122,59 @@ public class UsuarioController {
 		}
 	}
 	
+	@RequestMapping(value = "/realizarBaja", method = RequestMethod.POST)
+	public ModelAndView realizarBaja(@RequestParam(value = "usuarioId", required = true) Integer usuarioId) {
+		
+		Usuario usuario = usuarioService.getUsuarioById(usuarioId);
+		if (usuario != null) {
+			try {
+				usuarioService.removeUsuario(usuario);
+				
+				Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+				
+				/*UserDetails userDetails = usuarioService.loadUserByUsername(authentication.getName());
+				for (SessionInformation sessionInformation : sessionRegistry.getAllSessions(userDetails, true)) {
+					sessionInformation.expireNow();
+					sessionRegistry.removeSessionInformation(sessionInformation.getSessionId());
+                }*/
+			    
+			    return new ModelAndView("redirect:/j_spring_security_logout?spring-security-redirect=/ingresoAlSistema?usuarioDeleteteSuccessful");
+			    
+			    /*Usuario usuarioActual = usuarioService.getUsuarioByCorreoElectronicoAndActivo(authentication.getName(), true);
+			    SecurityContextLogoutHandler ctxLogOut = new SecurityContextLogoutHandler(); // concern you
+
+			    if (usuarioActual == null){
+			        ctxLogOut.logout(request, response, auth); // concern you
+			    }
+			    
+			    return new ModelAndView("redirect:/index?usuarioDeleteteSucessful");*/
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+				return new ModelAndView("redirect:/usuario/consulta/"+usuario.getUsuarioId());
+			}
+		}
+		else {
+			return new ModelAndView("redirect:/index?usuarioDeleteteError");
+		}
+	}
+	
+	public Usuario getUsuarioActual() {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		Usuario usuarioActual = null;
+		try {
+	        usuarioActual = usuarioService.getUsuarioByCorreoElectronicoAndActivo(authentication.getName(), true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    
+	    return usuarioActual;
+	}
+	
 	public Integer stringToId(String cadena) {
+		
 		Integer id = -1;
 		try {
 			id = Integer.parseInt(cadena);

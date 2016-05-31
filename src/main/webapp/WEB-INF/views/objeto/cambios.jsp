@@ -8,94 +8,88 @@
 	<head>
 	    <title>Insert title here</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<meta http-equiv="pragma" content="no-cache">
+	    <meta http-equiv="cache-control" content="no-cache">
+	    <meta http-equiv="expires" content="0">
 	</head>
 	<body>
 	    <div class="body">
 	    <h2>Cambio de datos de objeto</h2>
 	    
-		<form:form method="POST" action="${pageContext.request.contextPath}/objeto/realizarCambios" modelAttribute="usuario">
+		<form:form method="POST" action="${pageContext.request.contextPath}/objeto/realizarCambios" modelAttribute="objeto" enctype="multipart/form-data">
 		    <div class="dialog">
-		    <form:hidden path="usuarioId" value="${usuario.usuarioId}" readonly="true" />
+		    <form:hidden path="objetoId" value="${objeto.objetoId}" readonly="true" />
 		    <table>
 		        <tr>
-		            <td><form:label path="correoElectronico">Correo Electrónico</form:label></td>  
+		            <td><form:label path="tipoObjeto">Tipo de Objeto</form:label></td>
 		            <td>
-		                <form:hidden path="correoElectronico" value="${usuario.correoElectronico}" readonly="true" class="form-control" />
-		                <!--<form:input path="correoElectronico" value="${usuario.correoElectronico}" class="form-control" />-->
+		                <form:select multiple="single" path="tipoObjeto.tipoObjetoId" class="form-control" >
+		                <!--form:option selected="true" value="${objeto.tipoObjeto.tipoObjetoId}" /-->
+                        <form:option value="" label="-Elige-" />
+                        <form:options items="${tiposObjeto}" itemValue="tipoObjetoId" itemLabel="nombreTipoObjeto" />
+                        </form:select>
 		            </td>
 		            <td>
-			            <!--<form:errors path="correoElectronico" cssClass="alert alert-warning" element="div" />-->
+		                <form:errors path="tipoObjeto" cssClass="alert alert-warning" element="div" />
+		            </td>
+		        </tr>
+		    
+		        <tr>
+		            <td><form:label path="nombreObjeto">Nombre</form:label></td>  
+		            <td>
+		                <form:input path="nombreObjeto" value="${objeto.nombreObjeto}" class="form-control" />
+		            </td>
+		            <td>
+			            <form:errors path="nombreObjeto" cssClass="alert alert-warning" element="div" />
 		            </td>
 		        </tr>
 		        
 		        <tr>
-		            <td><form:label path="contrasenia">Contraseña</form:label></td>  
+		            <td><form:label path="descripcion">Descripción</form:label></td>  
 		            <td>
-		                <form:password path="contrasenia" value="${usuario.contrasenia}" class="form-control" />
+		                <form:textarea path="descripcion" value="${objeto.descripcion}" class="form-control" style="height:150px" />
 		            </td>
 		            <td>
-		                <form:errors path="contrasenia" cssClass="alert alert-warning" element="div" />
-		            </td>
-		        </tr>
-		        
-		        <tr>
-		            <td><form:label path="tipoUsuario">Tipo de Usuario</form:label></td>
-		            <td>
-		                <form:hidden path="usuario.tipoUsuario.tipoUsuarioId" value="${usuario.tipoUsuario.tipoUsuarioId}" readonly="true" class="form-control" />
-		                <!--form:select multiple="single" path="tipoUsuario.tipoUsuarioId" class="form-control"-->
-		                <!----form:option selected="true" value="${usuario.tipoUsuario.tipoUsuarioId}" /---->
-                        <!--form:option value="" label="-Elige-" /-->
-                        <!--form:options items="${tiposUsuario}" itemValue="tipoUsuarioId" itemLabel="nombreTipoUsuario" /-->
-                        <!--/form:select-->
-		            </td>
-		            <td>
-		                <!--<form:errors path="tipoUsuario" cssClass="alert alert-warning" element="div" />-->
+		                <form:errors path="descripcion" cssClass="alert alert-warning" element="div" />
 		            </td>
 		        </tr>
 		        
 		        <tr>
-		            <td><form:label path="nombre">Nombre</form:label></td>  
+		            <td><form:label path="beneficioEsperado">Beneficio esperado</form:label></td>  
 		            <td>
-		                <form:input path="nombre" value="${usuario.nombre}" class="form-control" />
+		                <form:input path="beneficioEsperado" value="${objeto.beneficioEsperado}" class="form-control" />
 		            </td>
 		            <td>
-		                <form:errors path="nombre" cssClass="alert alert-warning" element="div" />
+		                <form:errors path="beneficioEsperado" cssClass="alert alert-warning" element="div" />
 			        </td>
 		        </tr>
 		        
 		        <tr>
-		            <td><form:label path="apellidos">Apellidos</form:label></td>  
+		            <td><form:label path="periodoTiempoPrestamo">Periodo de tiempo de prestamo</form:label></td>  
 		            <td>
-		                <form:input path="apellidos" value="${usuario.apellidos}" class="form-control" />
+		                <form:input path="periodoTiempoPrestamo" value="${objeto.periodoTiempoPrestamo}" class="form-control" />
 		            </td>
 		            <td>
-		                <form:errors path="apellidos" cssClass="alert alert-warning" element="div" />
+		                <form:errors path="periodoTiempoPrestamo" cssClass="alert alert-warning" element="div" />
 		            </td>
 		        </tr>
 		        
 		        <tr>
-		            <td><form:label path="telefono">Telefono</form:label></td>  
+		            <td><form:label path="nombreImagen">Imagen</form:label></td>  
 		            <td>
-		                <form:input path="telefono" value="${usuario.telefono}" class="form-control" />
+		                <!--c:forEach items="${imagenes}" var="imagen" varStatus="status"-->
+		                <!--input type="file" name="imagenes[${status.index}].nombreImagen" value="${imagen.name}" /-->
+		                <!--/c:forEach-->
+		                <input type="file" name="imagen" value="" />
 		            </td>
 		            <td>
-		                <form:errors path="telefono" cssClass="alert alert-warning" element="div" />
-			        </td>
-		        </tr>
-		        
-		        <tr>
-		            <td><form:label path="otroDatoContacto">Otro dato de contacto</form:label></td>  
-		            <td>
-		                <form:textarea path="otroDatoContacto" value="${usuario.otroDatoContacto}" class="form-control" />
+		                <form:errors path="nombreImagen" cssClass="alert alert-warning" element="div" />
 		            </td>
-		            <td>
-		                <form:errors path="otroDatoContacto" cssClass="alert alert-warning" element="div" />
-			        </td>
 		        </tr>
 		        
 		        <tr>
 		            <td></td>
-		            <td><input type="submit" value="Modificar Usuario" class="btn btn-success" /></td>  
+		            <td><input type="submit" value="Modificar objeto" class="btn btn-success" /></td>  
 		        </tr>  
             </table>
             </div>

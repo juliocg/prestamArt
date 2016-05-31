@@ -39,7 +39,7 @@ public class ObjetoValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(errors, "periodoTiempoPrestamo", "objeto.periodoTiempoPrestamo.required");
 		
 		TipoObjeto tipoObjeto = objeto.getTipoObjeto();
-		if (tipoObjeto == null) {
+		if (tipoObjeto.getTipoObjetoId() == null) {
 			errors.rejectValue("tipoObjeto", "objeto.tipoObjeto.invalid");
 		}
 		

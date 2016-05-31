@@ -22,7 +22,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-
 @Service
 public class UsuarioService implements UserDetailsService {
 	
@@ -36,49 +35,12 @@ public class UsuarioService implements UserDetailsService {
 		this.usuarioDAO = usuarioDAO;
 		this.tipoUsuarioService = tipoUsuarioService;
 	}
-     
-    /*@Transactional
-    public void addUsuario(UsuarioForm usuarioForm) {
-    	Usuario usuario = new Usuario();
-    	
-    	usuario.setTipoUsuario(tipoUsuarioService.getTipoUsuarioById(usuarioForm.getTipoUsuarioId()));
-    	usuario.setCorreoElectronico(usuarioForm.getCorreoElectronico());
-		usuario.setContrasenia(usuarioForm.getContrasenia());
-		usuario.setNombre(usuarioForm.getNombre());
-		usuario.setApellidos(usuarioForm.getApellidos());
-		usuario.setTelefono(usuarioForm.getTelefono());
-		usuario.setOtroDatoContacto(usuarioForm.getOtroDatoContacto());
-		//usuario.setActivo(Boolean.parseBoolean(usuarioForm.getActivo()));
-    	
-    	usuarioDAO.save(usuario);
-    }
     
     @Transactional
-    public void updateUsuario(UsuarioForm usuarioForm) {
-        Usuario usuario = new Usuario();
-    	
-        usuario.setUsuarioId(Integer.parseInt(usuarioForm.getUsuarioId()));
-    	usuario.setTipoUsuario(tipoUsuarioService.getTipoUsuarioById(usuarioForm.getTipoUsuarioId()));
-    	usuario.setCorreoElectronico(usuarioForm.getCorreoElectronico());
-		usuario.setContrasenia(usuarioForm.getContrasenia());
-		usuario.setNombre(usuarioForm.getNombre());
-		usuario.setApellidos(usuarioForm.getApellidos());
-		usuario.setTelefono(usuarioForm.getTelefono());
-		usuario.setOtroDatoContacto(usuarioForm.getOtroDatoContacto());
-		//usuario.setActivo(Boolean.parseBoolean(usuarioForm.getActivo()));
-    	
-    	usuarioDAO.update(usuario);
-    }*/
-    
-    @Transactional
-    public void removeUsuario(String id) {
-    	Usuario usuario = null;
+    public void removeUsuario(Usuario usuario) {
     	try {
-			Integer usuarioId = Integer.parseInt(id);
-			usuario = usuarioDAO.findById(usuarioId);
 			usuarioDAO.delete(usuario);
-		}
-		catch(NumberFormatException e) {
+		} catch(NumberFormatException e) {
 			e.printStackTrace();
 		}
     }

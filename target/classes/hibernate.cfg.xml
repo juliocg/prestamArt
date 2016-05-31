@@ -4,9 +4,7 @@
 <hibernate-configuration>
 
 	<session-factory>
-		<property name="hbm2ddl.auto">
-		    update
-		</property>
+		<property name="hbm2ddl.auto">update</property>
 		<property name="dialect">
 			org.hibernate.dialect.MySQLDialect
 		</property>
@@ -16,7 +14,11 @@
 		<property name="connection.username">test_user</property>
 		<property name="connection.password">123456</property>
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.enable_lazy_load_no_trans">false</property>
+		<property name="connection.autocommit">true</property>
+		<property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <!--property name="connection.release_mode">auto</property-->
+		<!--property name="enable_lazy_load_no_trans">true</property-->
 		<!--property name="myeclipse.connection.profile">
 			MySQL_prestamart
 		</property-->
@@ -25,11 +27,11 @@
 		<mapping class="model.TipoObjeto" />
 		<mapping class="model.Objeto" />
 		<mapping class="model.ImagenObjeto" />
-		<!--mapping class="model.CalificacionObjeto" /-->
+		<mapping class="model.SolicitudPrestamoObjeto" />
 		<mapping class="model.RespuestaSolicitudPrestamo" />
 		<mapping class="model.PrestamoObjeto" />
-		<mapping class="model.SolicitudPrestamoObjeto" />
-		<!--mapping class="model.CalificacionConsumidor" /-->
+		<mapping class="model.CalificacionObjeto" />
+		<mapping class="model.CalificacionConsumidor" />
 	</session-factory>
 
 </hibernate-configuration>

@@ -97,7 +97,7 @@
 		        
 		        <tr>
 		            <td></td>
-		            <td><input type="submit" value="Modificar Usuario" class="btn btn-success" /></td>  
+		            <td><input type="submit" value="Modificar usuario" class="btn btn-success" /></td>  
 		        </tr>  
             </table>
             </div>

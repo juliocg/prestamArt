@@ -36,14 +36,14 @@ public class Usuario implements java.io.Serializable/*, UserDetails*/ {
 	private String telefono;
 	private String otroDatoContacto;
 	private Boolean activo;
-	private Set<TipoUsuario> tiposUsuario = new HashSet<TipoUsuario>(0);
-	/*private Set<RespuestaSolicitudPrestamo> respuestaSolicitudPrestamos = new HashSet<RespuestaSolicitudPrestamo>(0);
-	private Set<CalificacionConsumidor> calificacionConsumidorsForPrestadorId = new HashSet<CalificacionConsumidor>(0);
-	private Set<CalificacionConsumidor> calificacionConsumidorsForConsumidorId = new HashSet<CalificacionConsumidor>(0);
+	/*private Set<TipoUsuario> tiposUsuario = new HashSet<TipoUsuario>(0);*/
+	/*private Set<RespuestaSolicitudPrestamo> respuestaSolicitudPrestamos = new HashSet<RespuestaSolicitudPrestamo>(0);*/
+	/*private Set<CalificacionConsumidor> calificacionConsumidorsForPrestadorId = new HashSet<CalificacionConsumidor>(0);*/
+	/*private Set<CalificacionConsumidor> calificacionConsumidorsForConsumidorId = new HashSet<CalificacionConsumidor>(0);*/
 	private Set<SolicitudPrestamoObjeto> solicitudPrestamoObjetos = new HashSet<SolicitudPrestamoObjeto>(0);
-	private Set<PrestamoObjeto> prestamoObjetos = new HashSet<PrestamoObjeto>(0);
-	private Set<CalificacionObjeto> calificacionObjetos = new HashSet<CalificacionObjeto>(0);
-	private Set<Objeto> objetos = new HashSet<Objeto>(0);*/
+	/*private Set<PrestamoObjeto> prestamoObjetos = new HashSet<PrestamoObjeto>(0);*/
+	/*private Set<CalificacionObjeto> calificacionObjetos = new HashSet<CalificacionObjeto>(0);*/
+	private Set<Objeto> objetos = new HashSet<Objeto>(0);
 	
 	
 	
@@ -74,13 +74,13 @@ public class Usuario implements java.io.Serializable/*, UserDetails*/ {
 	public Usuario(TipoUsuario tipoUsuario, String correoElectronico,
 			String contrasenia, String nombre, String apellidos,
 			String telefono, String otroDatoContacto, Boolean activo/*,
-			Set<TipoUsuario> tiposUsuario,
-			Set<RespuestaSolicitudPrestamo> respuestaSolicitudPrestamos,
-			Set<CalificacionConsumidor> calificacionConsumidorsForPrestadorId,
-			Set<CalificacionConsumidor> calificacionConsumidorsForConsumidorId,
-			Set<SolicitudPrestamoObjeto> solicitudPrestamoObjetos,
-			Set<PrestamoObjeto> prestamoObjetos,
-			Set<CalificacionObjeto> calificacionObjetos, Set<Objeto> objetos*/) {
+			Set<TipoUsuario> tiposUsuario*//*,
+			Set<RespuestaSolicitudPrestamo> respuestaSolicitudPrestamos*//*,
+			Set<CalificacionConsumidor> calificacionConsumidorsForPrestadorId*//*,
+			Set<CalificacionConsumidor> calificacionConsumidorsForConsumidorId*/,
+			Set<SolicitudPrestamoObjeto> solicitudPrestamoObjetos/*,
+			Set<PrestamoObjeto> prestamoObjetos*//*,
+			Set<CalificacionObjeto> calificacionObjetos*/, Set<Objeto> objetos) {
 		this.tipoUsuario = tipoUsuario;
 		this.correoElectronico = correoElectronico;
 		this.contrasenia = contrasenia;
@@ -89,14 +89,14 @@ public class Usuario implements java.io.Serializable/*, UserDetails*/ {
 		this.telefono = telefono;
 		this.otroDatoContacto = otroDatoContacto;
 		this.activo = activo;
-		/*this.tiposUsuario = tipoUsuario;
-		this.respuestaSolicitudPrestamos = respuestaSolicitudPrestamos;
-		this.calificacionConsumidorsForPrestadorId = calificacionConsumidorsForPrestadorId;
-		this.calificacionConsumidorsForConsumidorId = calificacionConsumidorsForConsumidorId;
+		/*this.tiposUsuario = tipoUsuario;*/
+		/*this.respuestaSolicitudPrestamos = respuestaSolicitudPrestamos;*/
+		/*this.calificacionConsumidorsForPrestadorId = calificacionConsumidorsForPrestadorId;*/
+		/*this.calificacionConsumidorsForConsumidorId = calificacionConsumidorsForConsumidorId;*/
 		this.solicitudPrestamoObjetos = solicitudPrestamoObjetos;
-		this.prestamoObjetos = prestamoObjetos;
-		this.calificacionObjetos = calificacionObjetos;
-		this.objetos = objetos;*/
+		/*this.prestamoObjetos = prestamoObjetos;*/
+		/*this.calificacionObjetos = calificacionObjetos;*/
+		this.objetos = objetos;
 	}
 
 	// Property accessors
@@ -184,7 +184,7 @@ public class Usuario implements java.io.Serializable/*, UserDetails*/ {
 		this.activo = activo;
 	}
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	/*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "usuario_tipo_usuario", catalog = "prestamart", joinColumns = { @JoinColumn(name = "usuario_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "tipo_usuario_id", nullable = false, updatable = false) })
 	public Set<TipoUsuario> getTiposUsuario() {
 		return this.tiposUsuario;
@@ -192,7 +192,7 @@ public class Usuario implements java.io.Serializable/*, UserDetails*/ {
 
 	public void setTiposUsuario(Set<TipoUsuario> tiposUsuario) {
 		this.tiposUsuario = tiposUsuario;
-	}
+	}*/
 
 	/*@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuario")
 	public Set<RespuestaSolicitudPrestamo> getRespuestaSolicitudPrestamos() {
@@ -202,9 +202,9 @@ public class Usuario implements java.io.Serializable/*, UserDetails*/ {
 	public void setRespuestaSolicitudPrestamos(
 			Set<RespuestaSolicitudPrestamo> respuestaSolicitudPrestamos) {
 		this.respuestaSolicitudPrestamos = respuestaSolicitudPrestamos;
-	}
+	}*/
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuarioByPrestadorId")
+	/*@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuarioByPrestadorId")
 	public Set<CalificacionConsumidor> getCalificacionConsumidorsForPrestadorId() {
 		return this.calificacionConsumidorsForPrestadorId;
 	}
@@ -212,9 +212,9 @@ public class Usuario implements java.io.Serializable/*, UserDetails*/ {
 	public void setCalificacionConsumidorsForPrestadorId(
 			Set<CalificacionConsumidor> calificacionConsumidorsForPrestadorId) {
 		this.calificacionConsumidorsForPrestadorId = calificacionConsumidorsForPrestadorId;
-	}
+	}*/
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuarioByConsumidorId")
+	/*@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuarioByConsumidorId")
 	public Set<CalificacionConsumidor> getCalificacionConsumidorsForConsumidorId() {
 		return this.calificacionConsumidorsForConsumidorId;
 	}
@@ -222,9 +222,9 @@ public class Usuario implements java.io.Serializable/*, UserDetails*/ {
 	public void setCalificacionConsumidorsForConsumidorId(
 			Set<CalificacionConsumidor> calificacionConsumidorsForConsumidorId) {
 		this.calificacionConsumidorsForConsumidorId = calificacionConsumidorsForConsumidorId;
-	}
+	}*/
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuario")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "consumidor")
 	public Set<SolicitudPrestamoObjeto> getSolicitudPrestamoObjetos() {
 		return this.solicitudPrestamoObjetos;
 	}
@@ -234,16 +234,16 @@ public class Usuario implements java.io.Serializable/*, UserDetails*/ {
 		this.solicitudPrestamoObjetos = solicitudPrestamoObjetos;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuario")
+	/*@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuario")
 	public Set<PrestamoObjeto> getPrestamoObjetos() {
 		return this.prestamoObjetos;
 	}
 
 	public void setPrestamoObjetos(Set<PrestamoObjeto> prestamoObjetos) {
 		this.prestamoObjetos = prestamoObjetos;
-	}
+	}*/
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuario")
+	/*@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuario")
 	public Set<CalificacionObjeto> getCalificacionObjetos() {
 		return this.calificacionObjetos;
 	}
@@ -251,16 +251,16 @@ public class Usuario implements java.io.Serializable/*, UserDetails*/ {
 	public void setCalificacionObjetos(
 			Set<CalificacionObjeto> calificacionObjetos) {
 		this.calificacionObjetos = calificacionObjetos;
-	}
+	}*/
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuario")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "prestador")
 	public Set<Objeto> getObjetos() {
 		return this.objetos;
 	}
 
 	public void setObjetos(Set<Objeto> objetos) {
 		this.objetos = objetos;
-	}*/
+	}
 	
 	
 		

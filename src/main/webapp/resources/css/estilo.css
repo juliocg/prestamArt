@@ -418,3 +418,7 @@ a.menos {
 .close {
 	font-size: 16px;
 }
+
+.form-control {
+    min-width: 400px;
+}

@@ -13,7 +13,7 @@
 	    <div style="color:#fff; width:100%; height:100%; display:flex; align-items:center;">
 	        <div class="nav-left" style="float:left; width:50%" >
 	            <h1 style="margin-top:10px">
-	            <a href="index" style="color:#fff"><img src="<c:url value='/resources/images/icono.png' />" style="height:80px" />PrestamArt</a>
+	            <a href="/prestamArt/" style="color:#fff"><img src="<c:url value='/resources/images/icono.png' />" style="height:80px" />PrestamArt</a>
 	            </h1>
 	        </div>
 	        

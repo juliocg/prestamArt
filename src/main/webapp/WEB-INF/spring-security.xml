@@ -2,7 +2,8 @@
 <!--beans xmlns="http://www.springframework.org/schema/security" xsi:schemalocation="http://www.springframework.org/schema/beans&#10; http://www.springframework.org/schema/beans/spring-beans-3.0.xsd&#10; http://www.springframework.org/schema/security&#10; http://www.springframework.org/schema/security/spring-security.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"-->
 <beans:beans xmlns="http://www.springframework.org/schema/security"
     xmlns:beans="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:security="http://www.springframework.org/schema/security" 
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/security
@@ -28,6 +29,19 @@
         <intercept-url pattern="/" access="permitAll" />
         <intercept-url pattern="/index" access="permitAll" />
         <intercept-url pattern="/ingresoAlSistema" access="permitAll" /-->
+        <intercept-url pattern="/resources/**" access="permitAll" />
+        <intercept-url pattern="**/" access="permitAll" />
+        <intercept-url pattern="/" access="permitAll" />
+        <intercept-url pattern="/index**" access="permitAll" />
+        <intercept-url pattern="/busquedaObjetos**" access="permitAll" />
+        <intercept-url pattern="/busquedaObjetos/**" access="permitAll" />
+        <intercept-url pattern="/consultaObjeto**" access="permitAll" />
+        <intercept-url pattern="/consultaObjeto/**" access="permitAll" />
+        <intercept-url pattern="/registroUsuario**" access="permitAll" />
+        <intercept-url pattern="/registroUsuario/**" access="permitAll" />
+        <intercept-url pattern="/ingresoAlSistema**" access="permitAll" />
+        <intercept-url pattern="/salidaDelSistema**" access="permitAll" />
+        <intercept-url pattern="/**" access="isAuthenticated()" />
         <form-login login-page="/ingresoAlSistema" 
             authentication-failure-url="/ingresoAlSistema?error"
             authentication-success-handler-ref="customAuthenticationSuccessHandler"
@@ -36,8 +50,18 @@
         <logout logout-success-url="/ingresoAlSistema?logout" />
     </http>
     
+    <!--<http pattern="/resources/**" security="none" />-->
+    
     <beans:bean id="customAuthenticationProvider" class="utilities.CustomAuthenticationProvider" />
     <authentication-manager>
         <authentication-provider ref="customAuthenticationProvider" />
     </authentication-manager>
+    
+    <beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"/>
+    <!--security:http auto-config="false" use-expressions="true" entry-point-ref="authenticationEntryPoint">
+        <security:access-denied-handler error-page="/access-deniad" />
+        <security:session-management>
+            <security:concurrency-control max-sessions="10" session-registry-ref="sessionRegistry"/>
+        </security:session-management>
+    </security:http-->
 </beans:beans>

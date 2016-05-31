@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.servlet.ServletContext;
 
 import dao.ObjetoDAO;
@@ -32,27 +33,36 @@ public class ObjetoService {
     private ServletContext servletContext;
 
 	@Transactional
+    public void addObjeto(Objeto objeto) {
+		objetoDAO.save(objeto);
+	}
+	
+	@Transactional
     public void addObjeto(Objeto objeto, MultipartFile imagen) {
 		System.out.println( "Nombre del objeto:" + objeto.getNombreObjeto() );
 		System.out.println( "Descripcion del objeto:" + objeto.getDescripcion() );
 		System.out.println( "File:" + imagen.getName() );
 		System.out.println( "ContentType:" + imagen.getContentType() );
 		
+		System.out.println("Context Path: " + servletContext.getContextPath());
 		String contextPath = servletContext.getRealPath(File.separator);
-		System.out.println("Context Path: "+servletContext.getContextPath());
-		System.out.println("Real Path: "+contextPath);
+		System.out.println("Real Path: " + contextPath);
 		
-		String directorioBaseImagen = contextPath+"/resources/images/";
-		String directorioImagen = "/objetos";
+		String directorioBaseImagen = contextPath+File.separator+"resources"+File.separator+"images";
+		System.out.println("Directorio base imagen: " + directorioBaseImagen);
+		String directorioImagen = File.separator+"objetos";
+		System.out.println("Directorio imagen: " + directorioImagen);
+		System.out.println("Real Path: " + contextPath);
 		File directorio = new File(directorioBaseImagen, directorioImagen);
         directorio.mkdirs();
-		
+        
+        String extension = imagen.getOriginalFilename().split("[.]", 2)[1];
+        String nombreImagen = "objeto"+"."+extension;
+        
+        objeto.setNombreImagen(nombreImagen);
+        objetoDAO.save(objeto);
 		try {
-			objetoDAO.save(objeto);
-            
-			String extension = imagen.getOriginalFilename().split("[.]", 2)[1];
-            String nombreImagen = objeto.getObjetoId() + "objeto" + "." + extension;
-            imagen.transferTo(new File(directorio, nombreImagen));
+			imagen.transferTo(new File(directorio, objeto.getObjetoId()+"-"+nombreImagen));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -82,9 +92,43 @@ public class ObjetoService {
     }
     
     @Transactional
-    public void removeObjeto(Integer id) {
-    	Objeto objeto = objetoDAO.findById(id);
-    	objetoDAO.delete(objeto);
+    public void updateObjeto(Objeto objeto, MultipartFile imagen) {
+		System.out.println( "Nombre del objeto:" + objeto.getNombreObjeto() );
+		System.out.println( "Descripcion del objeto:" + objeto.getDescripcion() );
+		System.out.println( "File:" + imagen.getName() );
+		System.out.println( "ContentType:" + imagen.getContentType() );
+		
+		System.out.println("Context Path: " + servletContext.getContextPath());
+		String contextPath = servletContext.getRealPath(File.separator);
+		System.out.println("Real Path: " + contextPath);
+		
+		String directorioBaseImagen = contextPath+File.separator+"resources"+File.separator+"images";
+		System.out.println("Directorio base imagen: " + directorioBaseImagen);
+		String directorioImagen = File.separator+"objetos";
+		System.out.println("Directorio imagen: " + directorioImagen);
+		System.out.println("Real Path: " + contextPath);
+		File directorio = new File(directorioBaseImagen, directorioImagen);
+        directorio.mkdirs();
+        
+        String extension = imagen.getOriginalFilename().split("[.]", 2)[1];
+        String nombreImagen = "objeto"+"."+extension;
+        
+        objeto.setNombreImagen(nombreImagen);
+        objetoDAO.update(objeto);
+		try {
+			imagen.transferTo(new File(directorio, objeto.getObjetoId()+"-"+nombreImagen));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @Transactional
+    public void removeObjeto(Objeto objeto) {
+    	try {
+    	    objetoDAO.delete(objeto);
+    	} catch(NumberFormatException e) {
+			e.printStackTrace();
+		}
     }
     
     @Transactional
@@ -106,7 +150,13 @@ public class ObjetoService {
     
     @Transactional
     public List<Objeto> getObjetosByPrestador(Usuario prestador) {
-    	return objetoDAO.findByPrestador(prestador);
+    	List<Objeto> objetos = objetoDAO.findByPrestador(prestador);
+    	for (Objeto objeto : objetos) {
+    		// Para inicializar las solicitudes de prestamo de cada objeto
+			objeto.getSolicitudPrestamoObjetos().size();
+		}
+    	
+    	return objetos;
     }
     
     @Transactional
@@ -148,6 +198,23 @@ public class ObjetoService {
             condicion += "(" + condicionPalabraString + ")";
         }
         //////////////////////////////////////////////////
+
+		//////////////////////////////////////////////////
+		condicionPalabraString = "";
+		for (String palabra : palabrasTexto) {
+			if (condicionPalabraString != "") {
+			    condicionPalabraString += " AND ";
+			}
+			condicionPalabraString += "UPPER(objeto.descripcion) LIKE UPPER('%" + replaceSpecialCharLIKE(palabra) + "%') ESCAPE '!'";
+		}
+		
+		if (condicionPalabraString != "") {
+			if (condicion != "") {
+			    condicion += " OR ";
+			}
+		    condicion += "(" + condicionPalabraString + ")";
+		}
+		//////////////////////////////////////////////////
         
         if (condicion != "") {
         	condicion = " WHERE " + condicion + "";

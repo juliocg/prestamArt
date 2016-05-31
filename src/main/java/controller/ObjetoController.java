@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import model.ImagenObjeto;
+import model.SolicitudPrestamoObjeto;
 import model.Usuario;
 import model.TipoUsuario;
 import model.Objeto;
@@ -44,7 +45,9 @@ public class ObjetoController {
 	private ObjetoValidator objetoValidator;
 	
 	@RequestMapping(value = "/adminPrestador", method = RequestMethod.GET)
-    public String mostrarAdminPrestador(ModelMap map) {
+    public String mostrarAdminPrestador(
+    		ModelMap map, 
+    		@RequestParam(value = "deleteSuccessful", required = false) String deleteSuccessful) {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    String name = authentication.getName();
@@ -59,6 +62,10 @@ public class ObjetoController {
 		List<Objeto> objetos = objetoService.getObjetosByPrestador(prestador);
 
         map.put("objetos", objetos);
+        
+        if (deleteSuccessful != null) {
+        	map.put("mensaje", "El objeto se ha dado de baja correctamente");
+        }
 			
 	    return "objeto/adminPrestador";
 	}
@@ -89,9 +96,10 @@ public class ObjetoController {
     		@RequestParam("imagen") MultipartFile imagen,  
             BindingResult result) {
 		
-		objetoForm.setNombreImagen(imagen.getName());
-		
 		Objeto objeto = objetoForm;
+		
+		objeto.setNombreImagen(imagen.getOriginalFilename());
+		
 		objetoValidator.validate(objeto, result);
 		if (!result.hasErrors()) {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -149,6 +157,26 @@ public class ObjetoController {
 		}
     }
 	
+	@RequestMapping(value = "/realizarBaja", method = RequestMethod.POST)
+	public ModelAndView realizarBaja(@RequestParam(value = "objetoId", required = true) Integer objetoId) {
+		
+		Objeto objeto = objetoService.getObjetoById(objetoId);
+		if (objeto != null) {
+			try {
+			    objetoService.removeObjeto(objeto);
+			    
+			    return new ModelAndView("redirect:/objeto/adminPrestador?deleteSuccessful");
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+				return new ModelAndView("redirect:/objeto/adminPrestador?deleteteError");
+			}
+		}
+		else {
+			return new ModelAndView("redirect:/objeto/adminPrestador?deleteteError");
+		}
+	}
+	
 	@RequestMapping(value = "/cambios/{objetoId}", method = RequestMethod.GET)
     public ModelAndView mostrarCambios(
     		@PathVariable String objetoId/*, 
@@ -176,11 +204,11 @@ public class ObjetoController {
     		@RequestParam("imagen") MultipartFile imagen, 
             BindingResult result) {
 		
-		objetoForm.setNombreImagen(imagen.getName());
-		
 		Objeto objeto = objetoService.getObjetoById(objetoForm.getObjetoId());
 		if (objeto != null) {
 			objeto = objetoForm;
+			
+			objeto.setNombreImagen(imagen.getOriginalFilename());
 			
 			objetoValidator.validate(objeto, result);
 			if (!result.hasErrors()) {
@@ -192,7 +220,11 @@ public class ObjetoController {
 			    objeto.setPrestador(prestador);
 			    objeto.setActivo(true);
 				
-				objetoService.updateObjeto(objeto);
+				try {
+			        objetoService.updateObjeto(objeto,imagen);
+			    } catch(Exception e) {
+				    e.printStackTrace();
+				}
 				
 				return new ModelAndView("redirect:/objeto/adminPrestador?updateSuccessful");
 				//return new ModelAndView("redirect:/objeto/consulta/"+objeto.getObjetoId());

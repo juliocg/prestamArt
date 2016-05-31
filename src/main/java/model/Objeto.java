@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.JoinTable;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -35,10 +36,11 @@ public class Objeto implements java.io.Serializable {
 	private String periodoTiempoPrestamo;
 	private String nombreImagen;
 	private Boolean activo;
+	private Boolean prestado = false;
 	private Set<ImagenObjeto> imagenObjetos = new HashSet<ImagenObjeto>(0);
 	private Set<SolicitudPrestamoObjeto> solicitudPrestamoObjetos = new HashSet<SolicitudPrestamoObjeto>(0);
 	private Set<PrestamoObjeto> prestamoObjetos = new HashSet<PrestamoObjeto>(0);
-	/*private Set<CalificacionObjeto> calificacionObjetos = new HashSet<CalificacionObjeto>(0);*/
+	private Set<CalificacionObjeto> calificacionObjetos = new HashSet<CalificacionObjeto>(0);
 
 	// Constructors
 
@@ -49,7 +51,8 @@ public class Objeto implements java.io.Serializable {
 	/** minimal constructor */
 	public Objeto(Usuario prestador, TipoObjeto tipoObjeto, String nombreObjeto,
 			String descripcion, String beneficioEsperado,
-			String periodoTiempoPrestamo, String nombreImagen, Boolean activo) {
+			String periodoTiempoPrestamo, String nombreImagen, Boolean activo,
+			Boolean prestado) {
 		this.prestador = prestador;
 		this.tipoObjeto = tipoObjeto;
 		this.nombreObjeto = nombreObjeto;
@@ -58,14 +61,15 @@ public class Objeto implements java.io.Serializable {
 		this.periodoTiempoPrestamo = periodoTiempoPrestamo;
 		this.nombreImagen = nombreImagen;
 		this.activo = activo;
+		this.prestado = prestado;
 	}
 
 	/** full constructor */
 	public Objeto(Usuario prestador, TipoObjeto tipoObjeto, String nombreObjeto,
 			String descripcion, String beneficioEsperado,
 			String periodoTiempoPrestamo, String nombreImagen, Boolean activo,
-			Set<ImagenObjeto> imagenObjetos,
-			/*Set<CalificacionObjeto> calificacionObjetos,*/
+			Boolean prestado, Set<ImagenObjeto> imagenObjetos,
+			Set<CalificacionObjeto> calificacionObjetos,
 			Set<PrestamoObjeto> prestamoObjetos,
 			Set<SolicitudPrestamoObjeto> solicitudPrestamoObjetos) {
 		this.prestador = prestador;
@@ -76,8 +80,9 @@ public class Objeto implements java.io.Serializable {
 		this.periodoTiempoPrestamo = periodoTiempoPrestamo;
 		this.nombreImagen = nombreImagen;
 		this.activo = activo;
+		this.prestado = prestado;
 		this.imagenObjetos = imagenObjetos;
-		/*this.calificacionObjetos = calificacionObjetos;*/
+		this.calificacionObjetos = calificacionObjetos;
 		this.prestamoObjetos = prestamoObjetos;
 		this.solicitudPrestamoObjetos = solicitudPrestamoObjetos;
 	}
@@ -95,7 +100,7 @@ public class Objeto implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "prestador_id"/*, referencedColumnName="usuario_id"*/, nullable = false)
+	@JoinColumn(name = "prestador_id", referencedColumnName="usuario_id", nullable = false)
 	public Usuario getPrestador() {
 		return this.prestador;
 	}
@@ -114,7 +119,7 @@ public class Objeto implements java.io.Serializable {
 		this.tipoObjeto = tipoObjeto;
 	}
 
-	@Column(name = "nombre_objeto", nullable = false)
+	@Column(name = "nombre_objeto", nullable = false, length = 65535)
 	public String getNombreObjeto() {
 		return this.nombreObjeto;
 	}
@@ -123,7 +128,7 @@ public class Objeto implements java.io.Serializable {
 		this.nombreObjeto = nombreObjeto;
 	}
 
-	@Column(name = "descripcion", nullable = false, length = 2047)
+	@Column(name = "descripcion", nullable = false, length = 65535)
 	public String getDescripcion() {
 		return this.descripcion;
 	}
@@ -132,7 +137,7 @@ public class Objeto implements java.io.Serializable {
 		this.descripcion = descripcion;
 	}
 
-	@Column(name = "beneficio_esperado", nullable = false, length = 511)
+	@Column(name = "beneficio_esperado", nullable = false, length = 2047)
 	public String getBeneficioEsperado() {
 		return this.beneficioEsperado;
 	}
@@ -167,6 +172,15 @@ public class Objeto implements java.io.Serializable {
 	public void setActivo(Boolean activo) {
 		this.activo = activo;
 	}
+	
+	@Column(name = "prestado", nullable = false)
+	public Boolean getPrestado() {
+		return (this.prestado == null) ? false : this.prestado;
+	}
+
+	public void setPrestado(Boolean prestado) {
+		this.prestado = prestado;
+	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "objeto")
 	public Set<ImagenObjeto> getImagenObjetos() {
@@ -178,6 +192,7 @@ public class Objeto implements java.io.Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "objeto")
+	//@JoinTable(name = "solicitud_prestamo_objeto")
 	public Set<SolicitudPrestamoObjeto> getSolicitudPrestamoObjetos() {
 		return this.solicitudPrestamoObjetos;
 	}
@@ -196,7 +211,7 @@ public class Objeto implements java.io.Serializable {
 		this.prestamoObjetos = prestamoObjetos;
 	}
 	
-	/*@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "objeto")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "objeto")
 	public Set<CalificacionObjeto> getCalificacionObjetos() {
 		return this.calificacionObjetos;
 	}
@@ -204,7 +219,7 @@ public class Objeto implements java.io.Serializable {
 	public void setCalificacionObjetos(
 			Set<CalificacionObjeto> calificacionObjetos) {
 		this.calificacionObjetos = calificacionObjetos;
-	}*/
+	}
 	
 	public String toString() {
 		return nombreObjeto;

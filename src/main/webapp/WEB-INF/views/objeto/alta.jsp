@@ -8,6 +8,9 @@
 	<head>
 	    <title>Insert title here</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<meta http-equiv="pragma" content="no-cache">
+	    <meta http-equiv="cache-control" content="no-cache">
+	    <meta http-equiv="expires" content="0">
 	</head>
 	<body>
 	    <div class="body">
@@ -33,7 +36,7 @@
 		        <tr>
 		            <td><form:label path="nombreObjeto">Nombre</form:label></td>  
 		            <td>
-		                <form:input path="nombreObjeto" value="${nombre.nombreObjeto}" class="form-control" />
+		                <form:input path="nombreObjeto" value="${objeto.nombreObjeto}" class="form-control" />
 		            </td>
 		            <td>
 			            <form:errors path="nombreObjeto" cssClass="alert alert-warning" element="div" />
@@ -43,7 +46,7 @@
 		        <tr>
 		            <td><form:label path="descripcion">Descripción</form:label></td>  
 		            <td>
-		                <form:textarea path="descripcion" value="${objeto.descripcion}" class="form-control" />
+		                <form:textarea path="descripcion" value="${objeto.descripcion}" class="form-control" style="height:150px" />
 		            </td>
 		            <td>
 		                <form:errors path="descripcion" cssClass="alert alert-warning" element="div" />
@@ -71,15 +74,15 @@
 		        </tr>
 		        
 		        <tr>
-		            <td><form:label path="imagenObjetos">Imagen</form:label></td>  
+		            <td><form:label path="nombreImagen">Imagen</form:label></td>  
 		            <td>
-		                <!--c:forEach items="${imagnees}" var="imagen" varStatus="status"-->
+		                <!--c:forEach items="${imagenes}" var="imagen" varStatus="status"-->
 		                <!--input type="file" name="imagenes[${status.index}].nombreImagen" value="${imagen.name}" /-->
 		                <!--/c:forEach-->
 		                <input type="file" name="imagen" value="" />
 		            </td>
 		            <td>
-		                <form:errors path="imagenObjetos" cssClass="alert alert-warning" element="div" />
+		                <form:errors path="nombreImagen" cssClass="alert alert-warning" element="div" />
 		            </td>
 		        </tr>
 		        

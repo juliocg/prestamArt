@@ -76,5 +76,15 @@
     <bean id="objetoService" class="service.ObjetoService" />
     <bean id="objetoValidator" class="validator.ObjetoValidator" />
     
+    <bean id="solicitudPrestamoObjetoDAO" class="dao.SolicitudPrestamoObjetoDAO" />
+    <bean id="solicitudPrestamoObjetoService" class="service.SolicitudPrestamoObjetoService" />
+    <bean id="solicitudPrestamoObjetoValidator" class="validator.SolicitudPrestamoObjetoValidator" />
+    
+    <bean id="calificacionObjetoDAO" class="dao.CalificacionObjetoDAO" />
+    <bean id="calificacionObjetoService" class="service.CalificacionObjetoService" />
+    
+    <bean id="calificacionConsumidorDAO" class="dao.CalificacionConsumidorDAO" />
+    <bean id="calificacionConsumidorService" class="service.CalificacionConsumidorService" />
+    
     <bean id="autenticacionService" class="service.AutenticacionService" />
 </beans>

@@ -54,7 +54,7 @@ public class PrestamoObjetoDAO extends BaseHibernateDAO {
 		log.debug("getting PrestamoObjeto instance with id: " + id);
 		try {
 			PrestamoObjeto instance = (PrestamoObjeto) getSession().get(
-					"hibernate.PrestamoObjeto", id);
+					"model.PrestamoObjeto", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -66,7 +66,7 @@ public class PrestamoObjetoDAO extends BaseHibernateDAO {
 		log.debug("finding PrestamoObjeto instance by example");
 		try {
 			List<PrestamoObjeto> results = (List<PrestamoObjeto>) getSession()
-					.createCriteria("hibernate.PrestamoObjeto")
+					.createCriteria("model.PrestamoObjeto")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());

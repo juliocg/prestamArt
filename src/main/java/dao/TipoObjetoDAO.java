@@ -81,7 +81,7 @@ public class TipoObjetoDAO extends BaseHibernateDAO {
 		log.debug("getting TipoObjeto instance with id: " + id);
 		Session session = getSession();
 		try {
-			TipoObjeto instance = (TipoObjeto) session.get("hibernate.TipoObjeto", id);
+			TipoObjeto instance = (TipoObjeto) session.get("model.TipoObjeto", id);
 			session.evict(instance);
 			return instance;
 		} catch (RuntimeException re) {
@@ -95,7 +95,7 @@ public class TipoObjetoDAO extends BaseHibernateDAO {
 		Session session = getSession();
 		try {
 			List<TipoObjeto> results = (List<TipoObjeto>) session
-					.createCriteria("hibernate.TipoObjeto").add(create(instance))
+					.createCriteria("model.TipoObjeto").add(create(instance))
 					.list();
 			log.debug("find by example successful, result size: "
 					+ results.size());

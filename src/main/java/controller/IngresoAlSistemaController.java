@@ -67,10 +67,10 @@ public class IngresoAlSistemaController {
 	}
 	
 	@RequestMapping(value = "/ingresarAlSistema", method = RequestMethod.POST)
-    public ModelAndView ingresarAlSistema(@ModelAttribute("IngresoAlSistemaForm") IngresoAlSistemaForm ingresoAlSistemaForm, 
-    		                              ModelMap map) {
+    public ModelAndView ingresarAlSistema(@ModelAttribute("IngresoAlSistemaForm") IngresoAlSistemaForm ingresoAlSistemaForm) {
         
-		//ModelMap map = new ModelMap();
+		ModelMap map = new ModelMap();
+		
 		Usuario usuario = usuarioService.getUsuarioByCorreoElectronico(ingresoAlSistemaForm.getCorreoElectronico());
 		if (usuario != null) {
 			String contrasenia = usuario.getContrasenia();

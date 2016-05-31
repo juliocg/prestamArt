@@ -7,6 +7,7 @@ import model.TipoObjeto;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -46,6 +47,7 @@ public class ObjetoDAO extends BaseHibernateDAO {
 		Transaction txt = session.beginTransaction();
 		try {
 			session.save(transientInstance);
+			session.flush();
 			txt.commit();
 			log.debug("save successful");
 		} catch (RuntimeException re) {
@@ -56,11 +58,12 @@ public class ObjetoDAO extends BaseHibernateDAO {
 	}
 	
 	public void update(Objeto transientInstance) {
-		log.debug("update Objeto instance");
+		log.debug("updating Objeto instance");
 		Session session = getSession();
 		Transaction txt = session.beginTransaction();
 		try {
 			session.update(transientInstance);
+			session.flush();
 			txt.commit();
 			log.debug("update successful");
 		} catch (RuntimeException re) {
@@ -88,11 +91,15 @@ public class ObjetoDAO extends BaseHibernateDAO {
 	public Objeto findById(java.lang.Integer id) {
 		log.debug("getting Objeto instance with id: " + id);
 		Session session = getSession();
+		Transaction txt = session.beginTransaction();
 		try {
-			Objeto instance = (Objeto) session.get("hibernate.Objeto", id);
+			Objeto instance = (Objeto) session.get("model.Objeto", id);
+			session.refresh(instance);
 			session.evict(instance);
+			txt.commit();
 			return instance;
 		} catch (RuntimeException re) {
+			txt.rollback();
 			log.error("get failed", re);
 			throw re;
 		}
@@ -101,15 +108,18 @@ public class ObjetoDAO extends BaseHibernateDAO {
 	public List<Objeto> findByExample(Objeto instance) {
 		log.debug("finding Objeto instance by example");
 		Session session = getSession();
+		Transaction txt = session.beginTransaction();
 		try {
 			List<Objeto> results = (List<Objeto>) session
-					.createCriteria("hibernate.Objeto")
+					.createCriteria("model.Objeto")
 					.add(create(instance))
 					.list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
+			txt.commit();
 			return results;
 		} catch (RuntimeException re) {
+			txt.rollback();
 			log.error("find by example failed", re);
 			throw re;
 		}
@@ -119,13 +129,16 @@ public class ObjetoDAO extends BaseHibernateDAO {
 		log.debug("finding Objeto instance with property: " + propertyName
 				+ ", value: " + value);
 		Session session = getSession();
+		Transaction txt = session.beginTransaction();
 		try {
 			String queryString = "from Objeto as model where model."
 					+ propertyName + " = ?";
 			Query queryObject = session.createQuery(queryString);
 			queryObject.setParameter(0, value);
+			txt.commit();
 			return queryObject.list();
 		} catch (RuntimeException re) {
+			txt.rollback();
 			log.error("find by property name failed", re);
 			throw re;
 		}
@@ -159,6 +172,7 @@ public class ObjetoDAO extends BaseHibernateDAO {
 	public List<Objeto> findByPrestador(Object prestador) {
 		log.debug("finding Objeto instance by prestador");
 		Session session = getSession();
+		Transaction txt = session.beginTransaction();
 		try {
 			Usuario object = (Usuario) prestador;
 			List<Objeto> results = (List<Objeto>) session
@@ -167,8 +181,10 @@ public class ObjetoDAO extends BaseHibernateDAO {
 					.list();
 			log.debug("find by prestador successful, result size: "
 					+ results.size());
+			txt.commit();
 			return results;
 		} catch (RuntimeException re) {
+			txt.rollback();
 			log.error("find by prestador failed", re);
 			throw re;
 		}
@@ -176,6 +192,7 @@ public class ObjetoDAO extends BaseHibernateDAO {
 	
 	public List<Objeto> findByPrestadorAndActivo(Object prestador, Object activo) {
 		Session session = getSession();
+		Transaction txt = session.beginTransaction();
 		try {
 			Usuario object = (Usuario) prestador;
 			List<Objeto> results = (List<Objeto>) session
@@ -185,8 +202,10 @@ public class ObjetoDAO extends BaseHibernateDAO {
 					.list();
 			log.debug("find by prestador and activo successful, result size: "
 					+ results.size());
+			txt.commit();
 			return results;
 		} catch (RuntimeException re) {
+			txt.rollback();
 			log.error("find by prestador and activo failed", re);
 			throw re;
 		}
@@ -194,10 +213,13 @@ public class ObjetoDAO extends BaseHibernateDAO {
 	
 	public List<Objeto> findByQuery(String queryString) {
 		Session session = getSession();
+		Transaction txt = session.beginTransaction();
 		try {
 			Query queryObject = session.createQuery(queryString);
+			txt.commit();
 			return queryObject.list();
 		} catch (RuntimeException re) {
+			txt.rollback();
 			log.error("find by query failed", re);
 			throw re;
 		}
@@ -206,11 +228,14 @@ public class ObjetoDAO extends BaseHibernateDAO {
 	public List findAll() {
 		log.debug("finding all Objeto instances");
 		Session session = getSession();
+		Transaction txt = session.beginTransaction();
 		try {
 			String queryString = "from Objeto";
 			Query queryObject = session.createQuery(queryString);
+			txt.commit();
 			return queryObject.list();
 		} catch (RuntimeException re) {
+			txt.rollback();
 			log.error("find all failed", re);
 			throw re;
 		}
@@ -218,8 +243,9 @@ public class ObjetoDAO extends BaseHibernateDAO {
 
 	public Objeto merge(Objeto detachedInstance) {
 		log.debug("merging Objeto instance");
+		Session session = getSession();
 		try {
-			Objeto result = (Objeto) getSession().merge(detachedInstance);
+			Objeto result = (Objeto) session.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -230,8 +256,9 @@ public class ObjetoDAO extends BaseHibernateDAO {
 
 	public void attachDirty(Objeto instance) {
 		log.debug("attaching dirty Objeto instance");
+		Session session = getSession();
 		try {
-			getSession().saveOrUpdate(instance);
+			session.saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -241,8 +268,9 @@ public class ObjetoDAO extends BaseHibernateDAO {
 
 	public void attachClean(Objeto instance) {
 		log.debug("attaching clean Objeto instance");
+		Session session = getSession();
 		try {
-			getSession().lock(instance, LockMode.NONE);
+			session.lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);

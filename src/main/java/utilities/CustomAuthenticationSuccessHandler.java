@@ -44,7 +44,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         	redirectAddress = "/objeto/adminPrestador";
         }
         else if (authorities.contains("ROLE_CONSUMIDOR")) {
-        	redirectAddress = "/prestamo/adminConsumidor";
+        	redirectAddress = "/solicitudPrestamoObjeto/adminConsumidor";
         }
         
         //response.sendRedirect(response.encodeURL(redirectAddress));

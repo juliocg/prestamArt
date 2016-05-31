@@ -2,6 +2,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="/WEB-INF/bienvenida-tag.tld" prefix="ct"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -57,10 +58,18 @@
 			                    <!--sec:authorize access="isAuthenticated()"-->
 			                    <ul class="nav navbar-nav navbar-right" style="height:40px;">
 			                    <li style="height:40px">
-			                    <a href="<c:url value='/usuario' />" style="padding-top:8px">Administrar usuario</a>
+			                    <ct:bienvenida />
+			                    </li>
+			                    <li style="height:40px">
+			                    <sec:authorize access="hasRole('ROLE_PRESTADOR')">
+			                    <div style="padding:10px"><a href="<c:url value='/objeto/adminPrestador' />">Administración de objetos</a></div>
+			                    </sec:authorize>
+			                    <sec:authorize access="hasRole('ROLE_CONSUMIDOR')">
+			                    <div style="padding:10px"><a href="<c:url value='/solicitudPrestamoObjeto/adminConsumidor' />">Administración de solicitudes de prestamo</a></div>
+			                    </sec:authorize>
 			                    </li>
 		                        <li style="height:40px">
-		                        <a href="<c:url value='/salidaDelSistema' />" style="padding-top:8px">Salir del sistema</a>
+		                        <div style="padding:10px"><a href="<c:url value='/salidaDelSistema' />">Salir del sistema</a></div>
 		                        </li>
 		                        </ul>
 		                        <!--/sec:authorize-->
@@ -68,10 +77,10 @@
 		                        <c:otherwise>
 		                        <ul class="nav navbar-nav navbar-right" style="height:40px;">
 		                        <li style="height:40px">
-			                    <a href="<c:url value='/registroUsuario' />" style="padding-top:8px">Registro de usuario</a>
+			                    <div style="padding:10px"><a href="<c:url value='/registroUsuario' />" style="padding-top:8px">Registro de usuario</a></div>
 			                    </li>
 			                    <li style="height:40px">
-		                        <a href="<c:url value='/ingresoAlSistema' />" style="padding-top:8px">Ingreso al sistema</a>
+		                        <div style="padding:10px"><a href="<c:url value='/ingresoAlSistema' />" style="padding-top:8px">Ingreso al sistema</a></div>
 		                        </li>
 		                        </ul>
 		                        </c:otherwise>

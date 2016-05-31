@@ -84,7 +84,7 @@ public class RespuestaSolicitudPrestamo implements java.io.Serializable {
 		this.solicitudPrestamoObjeto = solicitudPrestamoObjeto;
 	}
 
-	@Column(name = "mensaje_respuesta", length = 2047)
+	@Column(name = "mensaje_respuesta", length = 65535)
 	public String getMensajeRespuesta() {
 		return this.mensajeRespuesta;
 	}

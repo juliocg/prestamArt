@@ -10,6 +10,7 @@ import model.Objeto;
 import service.ObjetoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,7 @@ public class BusquedaObjetosController {
 		return new ModelAndView("busquedaObjetos/index", map);
 	}*/
 	
+	@PreAuthorize("hasAnyRole('ROLE_CONSUMIDOR')")
 	@RequestMapping(value = "/buscar", method = RequestMethod.POST)
     public ModelAndView realizarBusquedaObjetos(HttpServletRequest request, HttpServletResponse response) {
 		

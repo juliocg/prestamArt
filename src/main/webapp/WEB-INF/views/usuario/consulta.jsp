@@ -47,8 +47,15 @@
 		    
 		    <tr>
 			    <td colspan="2">
-			    <a href="<c:url value='/cambios/${usuario.usuarioId}' />" class="btn btn-success">Cambiar datos de usuario</a>
-			    <input type="submit" value="Dar de baja usuario" onclick="return confirm('¿Estas seguro de eliminar?');" class="btn btn-danger" />
+			        <div style="float:left; margin-right:15px">
+			        <a href="<c:url value='/usuario/cambios/${usuario.usuarioId}' />" class="btn btn-success">Cambiar datos de usuario</a>
+			        </div>
+			        <div style="float:left; margin-left:15px">
+			        <form:form method="POST" action="${pageContext.request.contextPath}/usuario/realizarBaja">
+			        <input type="hidden" id="usuarioId" name="usuarioId" value="${usuario.usuarioId}" readonly="true" />
+			        <input type="submit" value="Dar de baja usuario" onclick="return confirm('¿Estas seguro que deseas dar de baja tu usuario?');" class="btn btn-danger" />
+			        </form:form>
+			        </div>
 			    </td>
 		    </tr>
 	    </table>

@@ -24,11 +24,16 @@ public class SolicitudPrestamoObjeto implements java.io.Serializable {
 	// Fields
 
 	private Integer solicitudPrestamoObjetoId;
-	private Usuario usuario;
+	private Usuario consumidor;
 	private Objeto objeto;
 	private String mensajeSolicitudPrestamo;
-	private Set<RespuestaSolicitudPrestamo> respuestaSolicitudPrestamos = new HashSet<RespuestaSolicitudPrestamo>(
-			0);
+	private String mensajeRespuesta;
+	private Boolean solicitudAceptada;
+	private Boolean envioPrestamoObjetoPrestador;
+	private Boolean envioPrestamoObjetoRecibidoConsumidor;
+	private Boolean devolucionObjetoConsumidor;
+	private Boolean devolucionObjetoRecibidaPrestador;
+	private Set<RespuestaSolicitudPrestamo> respuestaSolicitudPrestamos = new HashSet<RespuestaSolicitudPrestamo>(0);
 
 	// Constructors
 
@@ -37,20 +42,31 @@ public class SolicitudPrestamoObjeto implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public SolicitudPrestamoObjeto(Usuario usuario, Objeto objeto,
+	public SolicitudPrestamoObjeto(Usuario consumidor, Objeto objeto,
 			String mensajeSolicitudPrestamo) {
-		this.usuario = usuario;
+		this.consumidor = consumidor;
 		this.objeto = objeto;
 		this.mensajeSolicitudPrestamo = mensajeSolicitudPrestamo;
 	}
 
 	/** full constructor */
-	public SolicitudPrestamoObjeto(Usuario usuario, Objeto objeto,
-			String mensajeSolicitudPrestamo,
+	public SolicitudPrestamoObjeto(Usuario consumidor, Objeto objeto,
+			String mensajeSolicitudPrestamo, String mensajeRespuesta,
+			Boolean solicitudAceptada,
+			Boolean envioPrestamoObjetoPrestador,
+			Boolean envioPrestamoObjetoRecibidoConsumidor,
+			Boolean devolucionObjetoConsumidor,
+			Boolean devolucionObjetoRecibidaPrestador,
 			Set<RespuestaSolicitudPrestamo> respuestaSolicitudPrestamos) {
-		this.usuario = usuario;
+		this.consumidor = consumidor;
 		this.objeto = objeto;
 		this.mensajeSolicitudPrestamo = mensajeSolicitudPrestamo;
+		this.mensajeRespuesta = mensajeRespuesta;
+		this.solicitudAceptada = solicitudAceptada;
+		this.envioPrestamoObjetoPrestador = envioPrestamoObjetoPrestador;
+		this.envioPrestamoObjetoRecibidoConsumidor = envioPrestamoObjetoRecibidoConsumidor;
+		this.devolucionObjetoConsumidor = devolucionObjetoConsumidor;
+		this.devolucionObjetoRecibidaPrestador = devolucionObjetoRecibidaPrestador;
 		this.respuestaSolicitudPrestamos = respuestaSolicitudPrestamos;
 	}
 
@@ -68,12 +84,12 @@ public class SolicitudPrestamoObjeto implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "consumidor_id", nullable = false)
-	public Usuario getUsuario() {
-		return this.usuario;
+	public Usuario getConsumidor() {
+		return this.consumidor;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setConsumidor(Usuario consumidor) {
+		this.consumidor = consumidor;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -86,13 +102,70 @@ public class SolicitudPrestamoObjeto implements java.io.Serializable {
 		this.objeto = objeto;
 	}
 
-	@Column(name = "mensaje_solicitud_prestamo", nullable = false, length = 2047)
+	@Column(name = "mensaje_solicitud_prestamo", nullable = false, length = 65535)
 	public String getMensajeSolicitudPrestamo() {
 		return this.mensajeSolicitudPrestamo;
 	}
 
 	public void setMensajeSolicitudPrestamo(String mensajeSolicitudPrestamo) {
 		this.mensajeSolicitudPrestamo = mensajeSolicitudPrestamo;
+	}
+	
+	@Column(name = "mensaje_respuesta", length = 65535)
+	public String getMensajeRespuesta() {
+		return this.mensajeRespuesta;
+	}
+
+	public void setMensajeRespuesta(String mensajeRespuesta) {
+		this.mensajeRespuesta = mensajeRespuesta;
+	}
+	
+	@Column(name = "solicitud_aceptada")
+	public Boolean getSolicitudAceptada() {
+		return this.solicitudAceptada;
+	}
+
+	public void setSolicitudAceptada(Boolean solicitudAceptada) {
+		this.solicitudAceptada = solicitudAceptada;
+	}
+
+	@Column(name = "envio_prestamo_objeto_prestador")
+	public Boolean getEnvioPrestamoObjetoPrestador() {
+		return this.envioPrestamoObjetoPrestador;
+	}
+
+	public void setEnvioPrestamoObjetoPrestador(
+			Boolean envioPrestamoObjetoPrestador) {
+		this.envioPrestamoObjetoPrestador = envioPrestamoObjetoPrestador;
+	}
+
+	@Column(name = "envio_prestamo_objeto_recibido_consumidor")
+	public Boolean getEnvioPrestamoObjetoRecibidoConsumidor() {
+		return this.envioPrestamoObjetoRecibidoConsumidor;
+	}
+
+	public void setEnvioPrestamoObjetoRecibidoConsumidor(
+			Boolean envioPrestamoObjetoRecibidoConsumidor) {
+		this.envioPrestamoObjetoRecibidoConsumidor = envioPrestamoObjetoRecibidoConsumidor;
+	}
+
+	@Column(name = "devolucion_objeto_consumidor")
+	public Boolean getDevolucionObjetoConsumidor() {
+		return this.devolucionObjetoConsumidor;
+	}
+
+	public void setDevolucionObjetoConsumidor(Boolean devolucionObjetoConsumidor) {
+		this.devolucionObjetoConsumidor = devolucionObjetoConsumidor;
+	}
+
+	@Column(name = "devolucion_objeto_recibida_prestador")
+	public Boolean getDevolucionObjetoRecibidaPrestador() {
+		return this.devolucionObjetoRecibidaPrestador;
+	}
+
+	public void setDevolucionObjetoRecibidaPrestador(
+			Boolean devolucionObjetoRecibidaPrestador) {
+		this.devolucionObjetoRecibidaPrestador = devolucionObjetoRecibidaPrestador;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "solicitudPrestamoObjeto")

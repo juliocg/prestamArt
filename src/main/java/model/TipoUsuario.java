@@ -31,7 +31,7 @@ public class TipoUsuario implements java.io.Serializable/*, GrantedAuthority*/ {
 	private String nombreTipoUsuario;
 	private Boolean elegible;
 	private Set<Usuario> usuarios = new HashSet<Usuario>(0);
-	private Set<Usuario> users = new HashSet<Usuario>(0);
+	/*private Set<Usuario> users = new HashSet<Usuario>(0);*/
 
 	// Constructors
 
@@ -92,14 +92,14 @@ public class TipoUsuario implements java.io.Serializable/*, GrantedAuthority*/ {
 		this.usuarios = usuarios;
 	}
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tiposUsuario")
+	/*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tiposUsuario")
 	public Set<Usuario> getUsers() {
 		return this.users;
 	}
 
 	public void setUsers(Set<Usuario> users) {
 		this.users = users;
-	}
+	}*/
 	
 	/*public String getAuthority() {
         return this.nombreTipoUsuario;
